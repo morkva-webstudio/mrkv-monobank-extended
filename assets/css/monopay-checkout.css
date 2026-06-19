@@ -1,0 +1,5 @@
+#radio-control-wc-payment-method-options-morkva-monopay__label span{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 30px;
+}

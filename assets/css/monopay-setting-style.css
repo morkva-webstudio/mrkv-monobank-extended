@@ -1,0 +1,48 @@
+label[for="woocommerce_morkva-monopay_monopay_image_type_black"],
+label[for="woocommerce_morkva-monopay_monopay_image_type_white"]{
+    display: flex !important;
+    align-items: center;
+    gap: 30px;
+}
+.plugin-development span {
+    margin-bottom: 6px;
+    font-size: 16px;
+    display: block;
+    font-weight: 500;
+}
+.plugin-development img {
+    height: 27px;
+}
+#woocommerce_morkva-monopay_mono_checkout_logo_morkva{
+	background-color: #fff;
+	padding: 15px;
+    width: fit-content;
+    min-width: 200px;
+}
+#woocommerce_morkva-monopay_description,
+#woocommerce_morkva-monopay-payparts_title,
+#woocommerce_morkva-monopay-prepay_description,
+#woocommerce_morkva-monopay-payparts_description,
+#woocommerce_morkva-monopay-prepay_title,
+label[for="woocommerce_morkva-monopay-payparts_hide_image"],
+label[for="woocommerce_morkva-monopay-prepay_hide_image"],
+label[for="woocommerce_morkva-monopay_hide_image"],
+p.description
+{
+	max-width: 400px;
+}
+#woocommerce_morkva-monopay-payparts_mono_payparts_title,
+#woocommerce_morkva-monopay_mono_acquiring_title,
+#woocommerce_morkva-monopay-prepay_mono_acquiring_title,
+.morkva-settings-main > h2 + p
+{display: none !important;}
+#woocommerce_morkva-monopay-payparts_default_logo_plata{margin:0;}
+td label[for="woocommerce_morkva-monopay_hide_image"],
+td label[for="woocommerce_morkva-monopay_enabled"],
+td label[for="woocommerce_morkva-monopay-payparts_enabled"],
+td label[for="woocommerce_morkva-monopay-prepay_enabled"]{color: transparent;}
+.morkva-settings-sidebar img{width: 10px;}
+.morkva-settings-sidebar a img{    filter: brightness(100);}
+@media(max-width: 768px){
+    .morkva-settings-wrapper{flex-direction: column;}
+}

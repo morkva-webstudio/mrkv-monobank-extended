@@ -1,0 +1,498 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Project-Id-Version: Morkva Monobank Extended\n"
+"POT-Creation-Date: 2023-12-13 15:09+0200\n"
+"PO-Revision-Date: 2026-06-04 13:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: English (UK)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: morkva-monobank-extended.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: en_GB\n"
+"X-Loco-Version: 2.8.0; wp-7.0; php-8.4.21"
+
+#: includes/class-wc-morkva-mono-gateway.php:126
+#| msgid ""
+#| "<br>After receiving the API token and activating your merchant, write to "
+#| "Monobank's support chat<br> to activate a redirect to the site's thank "
+#| "you page (the plugin transmits the page URL via API).<br> Tell support "
+#| "that you are using the Morkva plugin."
+msgid ""
+"<br>After receiving the API token and activating your merchant, write to "
+"Monobank's support chat<br> to activate a redirect to the site's thank you "
+"page (the plugin transmits the page URL via API).<br> Tell support that you "
+"are using the morkva plugin."
+msgstr ""
+"<br>After receiving the API token and activating your merchant, write to "
+"Monobank's support chat<br> to activate a redirect to the site's thank you "
+"page (the plugin transmits the page URL via API).<br> Tell support that you "
+"are using the morkva plugin."
+
+#: includes/class-wc-morkva-mono-gateway.php:30
+#| msgid ""
+#| "Accept credit card payments on your website via Morkva Monobank payment "
+#| "gateway."
+msgid ""
+"Accept credit card payments on your website via morkva Monobank payment "
+"gateway."
+msgstr ""
+"Accept credit card payments on your website via morkva Monobank payment "
+"gateway."
+
+#: includes/class-morkva-monobank-menu.php:35
+msgid "Acquiring"
+msgstr "Acquiring"
+
+#: includes/class-morkva-mono-orders.php:97
+msgid "All our plugins are cross-compatible"
+msgstr "All our plugins are cross-compatible"
+
+#: includes/class-morkva-mono-orders.php:89
+msgid "and more"
+msgstr "and more"
+
+#: includes/class-wc-morkva-mono-gateway.php:124
+msgid "Api token"
+msgstr "Api token"
+
+#: includes/class-wc-morkva-mono-gateway.php:152
+msgid "Automatic cancellation of holding when the order status changes"
+msgstr "Automatic cancellation of holding when the order status changes"
+
+#: includes/class-wc-morkva-mono-gateway.php:145
+msgid "Automatic finalization of holding when the order status changes"
+msgstr "Automatic finalization of holding when the order status changes"
+
+#: includes/class-morkva-mono-orders.php:92
+msgid "Buy Pro-version"
+msgstr "Buy Pro-version"
+
+#: includes/class-morkva-mono-orders.php:572
+msgid "Cancel"
+msgstr "Cancel"
+
+#: includes/class-morkva-mono-orders.php:570
+msgid "Cancel hold"
+msgstr "Cancel hold"
+
+#: includes/class-morkva-mono-orders.php:75
+msgid "Check out pro-version"
+msgstr "Check out pro-version"
+
+#: includes/class-morkva-mono-orders.php:724
+msgid "Checking the status of the order"
+msgstr "Checking the status of the order"
+
+#: includes/class-wc-morkva-mono-gateway.php:161
+msgid "Configure the display of the payment method logo on the checkout page"
+msgstr "Configure the display of the payment method logo on the checkout page"
+
+#: includes/class-morkva-mono-orders.php:63
+msgid "Contact us via the widget on our website, or check out"
+msgstr "Contact us via the widget on our website, or check out"
+
+#: includes/class-wc-morkva-mono-gateway.php:133
+msgid "Courier"
+msgstr "Courier"
+
+#: includes/class-morkva-mono-orders.php:687
+msgid "Created"
+msgstr "Created"
+
+#: includes/class-wc-morkva-mono-gateway.php:188
+msgid "Custom logo url"
+msgstr "Custom logo url"
+
+#: includes/class-wc-morkva-mono-gateway.php:218
+msgid "Debug Log"
+msgstr "Debug Log"
+
+#: includes/class-wc-morkva-mono-gateway.php:110
+msgid "Description"
+msgstr "Description"
+
+#: includes/class-morkva-mono-orders.php:70
+msgid "Documantation"
+msgstr "Documantation"
+
+#: includes/class-morkva-mono-orders.php:63
+msgid "documantation"
+msgstr "documantation"
+
+#: includes/class-wc-morkva-mono-gateway.php:139
+msgid "Enable"
+msgstr "Enable"
+
+#: includes/class-wc-morkva-mono-gateway.php:220
+msgid "Enable Debug Log"
+msgstr "Enable Debug Log"
+
+#: includes/class-wc-morkva-mono-gateway.php:99
+#| msgid "Enable Morkva Mono Payment"
+msgid "Enable morkva Mono Payment"
+msgstr "Enable morkva Mono Payment"
+
+#: includes/class-wc-morkva-mono-gateway.php:208
+msgid "Enable Test Admin mode"
+msgstr "Enable Test Admin mode"
+
+#: includes/class-wc-morkva-mono-gateway.php:202
+msgid "Enable Test mode"
+msgstr "Enable Test mode"
+
+#: includes/class-wc-morkva-mono-gateway.php:97
+msgid "Enable/Disable"
+msgstr "Enable/Disable"
+
+#: includes/class-morkva-mono-orders.php:571
+msgid "Enter amount"
+msgstr "Enter amount"
+
+#: includes/class-wc-morkva-mono-gateway.php:191
+msgid "Enter full url to image"
+msgstr "Enter full url to image"
+
+#: includes/class-wc-morkva-mono-gateway.php:232
+msgid "Enter Merchant ID"
+msgstr "Enter Merchant ID"
+
+#: includes/class-wc-morkva-mono-gateway.php:239
+msgid "Enter Terminal ID"
+msgstr "Enter Terminal ID"
+
+#: includes/class-morkva-mono-orders.php:202
+#: includes/class-morkva-mono-orders.php:343
+msgid "Failed to finalize invoice: "
+msgstr "Failed to finalize invoice: "
+
+#: includes/class-morkva-mono-orders.php:569
+msgid "Finalize"
+msgstr "Finalize"
+
+#: includes/class-morkva-mono-orders.php:67
+msgid "Go to the website"
+msgstr "Go to the website"
+
+#: includes/class-wc-morkva-mono-gateway.php:182
+msgid "Hide logo"
+msgstr "Hide logo"
+
+#: includes/class-morkva-mono-orders.php:246
+#: includes/class-morkva-mono-orders.php:291
+msgid "Hold canceled"
+msgstr "Hold canceled"
+
+#: includes/class-morkva-mono-orders.php:213
+#: includes/class-morkva-mono-orders.php:351
+msgid "Hold cancellation error: "
+msgstr "Hold cancellation error: "
+
+#. %1$s: Formatted invoice finalization amount
+#: includes/class-wc-morkva-mono-gateway.php:613
+#, php-format
+msgid "Hold finalization amount %1$s UAH"
+msgstr "Hold finalization amount %1$s UAH"
+
+#: includes/class-morkva-mono-orders.php:206
+#: includes/class-morkva-mono-orders.php:347
+msgid "Hold finalized"
+msgstr "Hold finalized"
+
+#: includes/class-morkva-mono-orders.php:621
+msgid "Hold is not applied to the order."
+msgstr "Hold is not applied to the order."
+
+#: includes/class-morkva-mono-orders.php:541
+msgid "Hold payment Plata by Mono"
+msgstr "Hold payment Plata by Mono"
+
+#: includes/class-wc-morkva-mono-gateway.php:138
+msgid "Holds"
+msgstr "Holds"
+
+#. Author URI of the plugin
+msgid "https://morkva.co.ua"
+msgstr "https://morkva.co.ua"
+
+#: includes/class-wc-morkva-mono-gateway.php:159
+msgid "Image Settings"
+msgstr "Logo"
+
+#: includes/class-wc-morkva-mono-gateway.php:164
+msgid "Image style"
+msgstr "Choose the logo"
+
+#: includes/class-wc-morkva-mono-gateway.php:176
+msgid "Image width(px)"
+msgstr "Image width(px)"
+
+#: includes/class-morkva-mono-orders.php:257
+#: includes/class-morkva-mono-orders.php:301
+#: includes/class-morkva-mono-orders.php:364
+msgid "Invalid nonce."
+msgstr "Invalid nonce."
+
+#: includes/class-morkva-mono-orders.php:266
+#: includes/class-morkva-mono-orders.php:310
+msgid "Invalid order ID."
+msgstr "Invalid order ID."
+
+#: includes/class-morkva-mono-orders.php:720
+msgid "Invoice ID"
+msgstr "Invoice ID"
+
+#: includes/class-morkva-mono-orders.php:61
+msgid "Isn’t good enough for a 5"
+msgstr "Isn’t good enough for a 5"
+
+#: includes/class-morkva-mono-orders.php:53
+msgid "Leave"
+msgstr "Leave"
+
+#: includes/class-morkva-mono-orders.php:42
+msgid "Like this plugin?"
+msgstr "Like this plugin?"
+
+#: includes/class-wc-morkva-mono-gateway.php:229
+msgid "Merchant ID"
+msgstr "Merchant ID"
+
+#: includes/class-morkva-mono-orders.php:672
+msgid "Mono Acquiring"
+msgstr "Mono Acquiring"
+
+#. Author of the plugin
+#| msgid "MORKVA"
+msgid "morkva"
+msgstr "morkva"
+
+#. Name of the plugin
+#: includes/class-wc-morkva-mono-gateway.php:29
+#| msgid "Morkva Plata by Mono Extended"
+msgid "morkva Plata by Mono Extended"
+msgstr "morkva Plata by Mono Extended"
+
+#: includes/class-wc-morkva-mono-gateway.php:224
+msgid "National cashback"
+msgstr "National cashback"
+
+#: includes/class-wc-morkva-mono-gateway.php:87
+msgid "None"
+msgstr "None"
+
+#: includes/class-morkva-mono-orders.php:96
+msgid "Other free plugins"
+msgstr "Other free plugins"
+
+#: includes/class-morkva-mono-orders.php:79
+msgid "Pay by Parts"
+msgstr "PayParts"
+
+#: includes/class-wc-morkva-mono-gateway.php:116
+msgid "Payment destination"
+msgstr "Payment destination"
+
+#: includes/class-morkva-mono-orders.php:83
+msgid "Payment status validation"
+msgstr "Payment status validation"
+
+#: includes/class-morkva-mono-orders.php:536
+#| msgid "Plata by Mono (Morkva)"
+msgid "Plata by Mono (morkva)"
+msgstr "Plata by Mono (morkva)"
+
+#: includes/class-morkva-mono-orders.php:87
+msgid "Prepay"
+msgstr "Prepay"
+
+#: includes/class-morkva-mono-orders.php:690
+msgid "Processing"
+msgstr "Processing"
+
+#: includes/class-morkva-mono-orders.php:710
+msgid "Reference"
+msgstr "Reference"
+
+#: includes/class-wc-morkva-mono-gateway.php:708
+msgid "Refund failed."
+msgstr "Refund failed."
+
+#. %1$s: Refund amount, %2$s: Monobank transaction refund reference ID
+#: includes/class-wc-morkva-mono-gateway.php:734
+#, php-format
+msgid "Refunded %1$s - Refund ID: %2$s"
+msgstr "Refunded %1$s - Refund ID: %2$s"
+
+#: includes/class-wc-morkva-mono-gateway.php:226
+msgid "Request Merchant ID and Terminal ID from Mono support"
+msgstr "Request Merchant ID and Terminal ID from Mono support"
+
+#: includes/class-wc-morkva-mono-gateway.php:253
+msgid "Return to payments"
+msgstr "Return to payments"
+
+#: includes/class-morkva-mono-orders.php:50
+msgid "review at"
+msgstr "review at"
+
+#: includes/class-wc-morkva-mono-gateway.php:132
+msgid ""
+"Select the status to which the order status will change after successful "
+"payment"
+msgstr ""
+"Select the status to which the order status will change after successful "
+"payment"
+
+#: includes/class-wc-morkva-mono-gateway.php:118
+msgid "Shortcodes:"
+msgstr "Shortcodes:"
+
+#: includes/class-morkva-mono-orders.php:679
+msgid "Status"
+msgstr "Status"
+
+#: includes/class-wc-morkva-mono-gateway.php:631
+#: includes/class-wc-morkva-mono-gateway.php:645
+#: includes/class-morkva-mono-subscribe.php:127
+#: includes/class-morkva-mono-subscribe.php:136
+#: includes/class-morkva-mono-orders.php:481
+msgid "Status changed to: "
+msgstr "Status changed to: "
+
+#: includes/class-wc-morkva-mono-gateway.php:386
+#, php-format
+msgid "Status changed to: %s"
+msgstr "Status changed to: %s"
+
+#: includes/class-wc-morkva-mono-gateway.php:130
+msgid "Status of completed payment"
+msgstr "Status of completed payment"
+
+#: includes/class-morkva-mono-orders.php:696
+msgid "Success"
+msgstr "Success"
+
+#: includes/class-morkva-mono-orders.php:44
+msgid "Support our efforts with a"
+msgstr "Support our efforts with a"
+
+#: includes/class-wc-morkva-mono-gateway.php:118
+msgid ""
+"Template for the \"description\" field sent to LiqPay (shown to customer as "
+"payment purpose). Available shortcodes: {order_id}, {billing_first_name}, "
+"{billing_last_name}. Leave empty to keep default behavior."
+msgstr ""
+"Template for the \"description\" field sent to LiqPay (shown to customer as "
+"payment purpose). Available shortcodes: {order_id}, {billing_first_name}, "
+"{billing_last_name}. Leave empty to keep default behavior."
+
+#: includes/class-wc-morkva-mono-gateway.php:236
+msgid "Terminal ID"
+msgstr "Terminal ID"
+
+#: includes/class-wc-morkva-mono-gateway.php:212
+msgid "Test Api token"
+msgstr "Test Api token"
+
+#: includes/class-wc-morkva-mono-gateway.php:200
+msgid "Test mode"
+msgstr "Test mode"
+
+#: includes/class-wc-morkva-mono-gateway.php:206
+msgid "Test mode Admin"
+msgstr "Test mode Admin"
+
+#: includes/class-wc-morkva-mono-gateway.php:195
+msgid "Test mode Settings"
+msgstr "Test mode Settings"
+
+#: includes/class-wc-morkva-mono-gateway.php:142
+msgid ""
+"The payment is held for 9 days. After this period, the payment is "
+"automatically finalized. You can finalize it manually from the order page, "
+"or it will be finalized automatically when the status changes."
+msgstr ""
+"The payment is held for 9 days. After this period, the payment is "
+"automatically finalized. You can finalize it manually from the order page, "
+"or it will be finalized automatically when the status changes."
+
+#: includes/class-wc-morkva-mono-gateway.php:113
+msgid "This controls the description which the user sees during checkout."
+msgstr "This controls the description which the user sees during checkout."
+
+#: includes/class-wc-morkva-mono-gateway.php:105
+msgid "This controls the title which the user sees during checkout."
+msgstr "This controls the title which the user sees during checkout."
+
+#: includes/class-wc-morkva-mono-gateway.php:103
+msgid "Title"
+msgstr "Title"
+
+#: includes/class-wc-morkva-mono-gateway.php:197
+msgid "To test the method's functionality, use test mode"
+msgstr "To test the method's functionality, use test mode"
+
+#: includes/class-wc-morkva-mono-gateway.php:214
+msgid ""
+"You can find out your Test Token by the link: <a href=\"https://api.monobank."
+"ua/\" target=\"blank\">api.monobank.ua</a>"
+msgstr ""
+"You can find out your Test Token by the link: <a href=\"https://api.monobank."
+"ua/\" target=\"blank\">api.monobank.ua</a>"
+
+#: includes/class-wc-morkva-mono-gateway.php:126
+msgid ""
+"You can find out your X-Token by the link: <a href=\"https://web.monobank."
+"ua/\" target=\"blank\">web.monobank.ua</a>"
+msgstr ""
+"You can find out your X-Token by the link: <a href=\"https://web.monobank."
+"ua/\" target=\"blank\">web.monobank.ua</a>"
+
+#: includes/class-morkva-mono-orders.php:262
+#: includes/class-morkva-mono-orders.php:306
+#: includes/class-morkva-mono-orders.php:369
+msgid "You do not have permission to edit orders."
+msgstr "You do not have permission to edit orders."
+
+#: includes/class-wc-morkva-mono-gateway.php:118
+msgid ""
+"{billing_first_name} - The buyer's name as listed in the order's payment "
+"details,"
+msgstr ""
+"{billing_first_name} - The buyer's name as listed in the order's payment "
+"details,"
+
+#: includes/class-wc-morkva-mono-gateway.php:118
+msgid ""
+"{billing_last_name} - the buyer's last name as listed in the order's billing "
+"information,"
+msgstr ""
+"{billing_last_name} - the buyer's last name as listed in the order's billing "
+"information,"
+
+#: includes/class-wc-morkva-mono-gateway.php:118
+msgid "{order_id} - Order ID."
+msgstr "{order_id} - Order ID."
+
+#. Description of the plugin
+#| msgid "Краще ніж офіційний: інтернет-еквайринг, Checkout by mono."
+msgid "Краще ніж офіційний: інтернет-еквайринг."
+msgstr "Краще ніж офіційний: інтернет-еквайринг."
+
+#: includes/class-wc-morkva-mono-gateway.php:119
+msgid ""
+"Оплата за замовлення №{order_id} від {billing_last_name} {billing_first_name}"
+msgstr ""
+"Оплата за замовлення №{order_id} від {billing_last_name} {billing_first_name}"

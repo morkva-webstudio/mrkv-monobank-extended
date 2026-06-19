@@ -1,0 +1,128 @@
+@font-face {
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Nunito Sans'), url('../fonts/NunitoSans-Regular.ttf') format('truetype');
+}
+.mrkv_plata_checkout + .mrkv_plata_checkout{
+	display: none !important;
+}
+.mrkv-monopay-checkout{
+	cursor: pointer;
+	position: relative;
+	background-color: #000;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	transition: all .3s;
+	height: 56px;
+}
+.mrkv-monopay-checkout.mono-white-btn{
+	background-color: #fff;
+	color: #000;
+}
+.mrkv-monopay-checkout:hover{
+	opacity: .8;
+}
+.mrkv-monopay-checkout img{
+	margin-left: 20px;
+}
+.mrkv-monopay-checkout__loader{
+	position: absolute;
+    right: 10px;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+    transform: translate(-50%, -50%);
+    width: 45px;
+    display: none;
+}
+.mrkv-monopay-checkout__loader.active{
+	display: block;
+    width: 100%;
+    height: 56px;
+        background-color: #ffffff4f;
+    text-align: center;
+}
+.mrkv-monopay-checkout__loader.active svg{
+	height: 56px;
+}
+.mrkv-monopay-checkout[data-product-type="variable"]{
+	cursor: not-allowed;
+	opacity: .5;
+}
+.mrkv-monopay-checkout[data-product-type="variable"].choosen{
+	opacity: 1;
+	cursor: pointer;
+}
+.mrkv-monopay-checkout span{
+	padding-right: 10px;
+	font-family: 'Nunito Sans';
+	font-size: 14px;
+}
+.mrkv-monopay-checkout.mob-style,
+.mrkv-monopay-checkout.mob-style-main{
+	flex-direction: column;
+}
+.mrkv-monopay-checkout.mob-style span,
+.mrkv-monopay-checkout.mob-style-main span{
+	font-size: 12px;
+	padding-right: 0;
+	padding-bottom: 3px;
+	line-height: 10px;
+}
+.single_add_to_cart_button{
+	display: inline-block !important;
+	margin-bottom: 0 !important;
+	margin-top: 11px !important;
+}
+.mrkv-monopay-checkout.mob-style-main{
+	display: inline-flex;
+	margin-top: 0;
+	margin-bottom: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-left: 0px;
+}
+.product-template-default .single_add_to_cart_button{
+	margin-top: 0 !important;
+}
+.product-template-default form.cart{
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.product-template-default form.cart button.button{
+	margin-right: 10px;
+}
+.product-template-default form.cart .buttons_added{
+	margin-bottom: 0;
+}
+.product-template-default .woocommerce-variation-add-to-cart{
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.product-template-default .woocommerce-variation-add-to-cart .buttons_added{
+	margin-bottom: 0;
+}
+.product-template-default .woocommerce-variation-add-to-cart button.button{
+	margin-right: 10px;
+}
+.product-template-default .mrkv-monopay-checkout.mob-style-main{
+	height: 41px;
+}
+#product-addons-total ~ .mrkv-monopay-checkout{
+	display: none !important;
+}
+@media(max-width: 768px){
+	.product-template-default .mrkv-monopay-checkout[data-product-type="variable"]{
+		width: 100%;
+	    margin-left: 0;
+	    margin-top: 15px;
+	}
+}
