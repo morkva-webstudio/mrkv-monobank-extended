@@ -32,23 +32,31 @@ if (!class_exists('MorkvaMonopayOrders'))
 			add_action( 'wp_ajax_nopriv_mrkv_mono_final_payment_hold', array( $this, 'mrkv_mono_final_payment_hold_func' ) );
 
 			add_action('mrkv_mono_plata_settings_sidebar', [$this, 'mrkv_mono_plata_settings_sidebar_func']);
-			add_action( 'init', [$this, 'mrkv_mono_schedule_log_cleanup'] );
-			add_action( 'mrkv_mono_delete_old_logs_event', [$this, 'mrkv_mono_clean_logs'] );
-		}
 
-		public function mrkv_mono_schedule_log_cleanup() {
 			if ( ! wp_next_scheduled( 'mrkv_mono_delete_old_logs_event' ) ) {
 				wp_schedule_event( time(), 'twicedaily', 'mrkv_mono_delete_old_logs_event' );
 			}
+
+			add_action( 'mrkv_mono_delete_old_logs_event', [$this, 'mrkv_mono_clean_logs'] );
 		}
 
 		public function mrkv_mono_clean_logs() {
-			$handler = new WC_Log_Handler_File();
+			$log_dir = defined( 'WC_LOG_DIR' ) ? WC_LOG_DIR : WP_CONTENT_DIR . '/uploads/wc-logs/';
 			$source  = 'mrkv-monobank-extended';
-			$log_path = $handler->get_log_file_path( $source );
+			$files = glob( $log_dir . $source . '*.log' );
 
-			if ( file_exists( $log_path ) ) {
-				file_put_contents( $log_path, '' );
+			if ( ! empty( $files ) && is_array( $files ) ) {
+				$three_days_ago = time() - ( 3 * DAY_IN_SECONDS ); 
+
+				foreach ( $files as $file ) {
+					if ( file_exists( $file ) ) {
+						$file_modified_time = filemtime( $file );
+
+						if ( $file_modified_time < $three_days_ago ) {
+							@unlink( $file );
+						}
+					}
+				}
 			}
 		}
 
