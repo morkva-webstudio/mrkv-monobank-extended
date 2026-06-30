@@ -317,7 +317,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             $basket_info[] = $item_data;
         }
 
-        if ( $this->should_include_shipping_to_monobank( $order ) && $order->get_shipping_total() > 0 ) {
+        if ( $this->should_include_shipping_to_monobank( $order ) || $order->get_shipping_total() > 0 ) {
             $shipping_total = round($order->get_shipping_total() * 100);
             $basket_info[] = [
                 "name"    => mb_substr(wp_strip_all_tags($order->get_shipping_method()), 0, 250) ?: 'Доставка',
