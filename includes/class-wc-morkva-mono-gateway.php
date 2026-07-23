@@ -139,7 +139,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
                 'label' => '<span>' . __( 'Enable', 'morkva-monobank-extended' )  . '</span>',
                 'type' => 'checkbox',
                 'default' => 'false',
-                'description' => __( 'The payment is held for 9 days. After this period, the payment is automatically finalized. You can finalize it manually from the order page, or it will be finalized automatically when the status changes.', 'morkva-monobank-extended' ),
+                'description' => __( 'The payment is held for 9 days. After this period, the payment is automatically cancelled. You can finalize it manually from the order page, or it will be finalized automatically when the status changes.', 'morkva-monobank-extended' ),
             ),
             'hold_finale_status' => array(
                 'title' => __( 'Automatic finalization of holding when the order status changes', 'morkva-monobank-extended' ),
@@ -317,7 +317,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             $basket_info[] = $item_data;
         }
 
-        if ( $this->should_include_shipping_to_monobank( $order ) || $order->get_shipping_total() > 0 ) {
+        if ( $this->should_include_shipping_to_monobank( $order )) {
             $shipping_total = round($order->get_shipping_total() * 100);
             $basket_info[] = [
                 "name"    => mb_substr(wp_strip_all_tags($order->get_shipping_method()), 0, 250) ?: 'Доставка',
@@ -1098,6 +1098,6 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             }
         }
 
-        return $order->get_shipping_total() > 0;
+        return true;
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: morkva Plata by Mono Extended
  * Description: Краще ніж офіційний: інтернет-еквайринг.
- * Version: 1.6.4
+ * Version: 1.6.5
  * Tested up to: 7.0
  * Requires at least: 5.2
  * Requires PHP: 7.1
@@ -38,7 +38,7 @@ new MorkvaMonopayMenu();
 # Define constant of plugin direction and path
 define('MORKVAMONOGATEWAY_DIR', plugin_dir_path(__FILE__));
 define('MORKVAMONOGATEWAY_PATH', plugin_dir_url(__FILE__));
-define('MORKVAMONOGATEWAY_VERSION', '1.6.4');
+define('MORKVAMONOGATEWAY_VERSION', '1.6.5');
 
 # Add payment method to site
 add_action( 'plugins_loaded', 'mrkv_mono_init_mono_gateway_class', 11 );

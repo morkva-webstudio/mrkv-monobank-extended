@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Morkva Monobank Extended\n"
 "POT-Creation-Date: 2024-09-18 09:07+0300\n"
-"PO-Revision-Date: 2026-06-04 13:43+0000\n"
+"PO-Revision-Date: 2026-07-23 08:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -60,11 +60,11 @@ msgstr ""
 msgid "Acquiring"
 msgstr "Еквайринг"
 
-#: includes/class-morkva-mono-orders.php:97
+#: includes/class-morkva-mono-orders.php:123
 msgid "All our plugins are cross-compatible"
 msgstr "Всі наші плагіни сумісні між собою"
 
-#: includes/class-morkva-mono-orders.php:89
+#: includes/class-morkva-mono-orders.php:115
 msgid "and more"
 msgstr "та більше..."
 
@@ -81,23 +81,23 @@ msgstr ""
 msgid "Automatic finalization of holding when the order status changes"
 msgstr "Автоматична фіналізація холдування при зміні статуса замовлення"
 
-#: includes/class-morkva-mono-orders.php:92
+#: includes/class-morkva-mono-orders.php:118
 msgid "Buy Pro-version"
 msgstr "Купити Pro-версію"
 
-#: includes/class-morkva-mono-orders.php:572
+#: includes/class-morkva-mono-orders.php:598
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: includes/class-morkva-mono-orders.php:570
+#: includes/class-morkva-mono-orders.php:596
 msgid "Cancel hold"
 msgstr "Скасувати утримання"
 
-#: includes/class-morkva-mono-orders.php:75
+#: includes/class-morkva-mono-orders.php:101
 msgid "Check out pro-version"
 msgstr "Pro-версія"
 
-#: includes/class-morkva-mono-orders.php:724
+#: includes/class-morkva-mono-orders.php:750
 msgid "Checking the status of the order"
 msgstr "Перевірка статусу замовлення"
 
@@ -107,7 +107,7 @@ msgstr ""
 "Налаштуйте відображення логотипу способу оплати на сторінці оформлення "
 "замовлення"
 
-#: includes/class-morkva-mono-orders.php:63
+#: includes/class-morkva-mono-orders.php:89
 msgid "Contact us via the widget on our website, or check out"
 msgstr "Напишіть нам через віджет на сайті, або перегляньте"
 
@@ -115,7 +115,7 @@ msgstr "Напишіть нам через віджет на сайті, або 
 msgid "Courier"
 msgstr "Кур'єр"
 
-#: includes/class-morkva-mono-orders.php:687
+#: includes/class-morkva-mono-orders.php:713
 msgid "Created"
 msgstr "Створено"
 
@@ -123,29 +123,21 @@ msgstr "Створено"
 msgid "Custom logo url"
 msgstr "Власна URL-адреса логотипу"
 
-#: includes/class-wc-morkva-mono-gateway.php:218
-msgid "Debug Log"
-msgstr "Debug Log"
-
 #: includes/class-wc-morkva-mono-gateway.php:110
 msgid "Description"
 msgstr "Опис"
 
-#: includes/class-morkva-mono-orders.php:70
+#: includes/class-morkva-mono-orders.php:96
 msgid "Documantation"
 msgstr "Документація"
 
-#: includes/class-morkva-mono-orders.php:63
+#: includes/class-morkva-mono-orders.php:89
 msgid "documantation"
 msgstr "документацію"
 
 #: includes/class-wc-morkva-mono-gateway.php:139
 msgid "Enable"
 msgstr "Увімкнути"
-
-#: includes/class-wc-morkva-mono-gateway.php:220
-msgid "Enable Debug Log"
-msgstr "Увімкнути Debug Log"
 
 #: includes/class-wc-morkva-mono-gateway.php:99
 #| msgid "Enable Morkva Mono Payment"
@@ -164,7 +156,7 @@ msgstr "Увімкнути Тестовий режим"
 msgid "Enable/Disable"
 msgstr "Увімкнути/вимкнути"
 
-#: includes/class-morkva-mono-orders.php:571
+#: includes/class-morkva-mono-orders.php:597
 msgid "Enter amount"
 msgstr "Введіть суму"
 
@@ -172,24 +164,24 @@ msgstr "Введіть суму"
 msgid "Enter full url to image"
 msgstr "Введіть повне посилання на зображення"
 
-#: includes/class-wc-morkva-mono-gateway.php:232
+#: includes/class-wc-morkva-mono-gateway.php:226
 msgid "Enter Merchant ID"
 msgstr "Введіть Merchant ID"
 
-#: includes/class-wc-morkva-mono-gateway.php:239
+#: includes/class-wc-morkva-mono-gateway.php:233
 msgid "Enter Terminal ID"
 msgstr "Введіть Terminal ID"
 
-#: includes/class-morkva-mono-orders.php:202
-#: includes/class-morkva-mono-orders.php:343
+#: includes/class-morkva-mono-orders.php:228
+#: includes/class-morkva-mono-orders.php:369
 msgid "Failed to finalize invoice: "
 msgstr "Не вдалося завершити інвойс: "
 
-#: includes/class-morkva-mono-orders.php:569
+#: includes/class-morkva-mono-orders.php:595
 msgid "Finalize"
 msgstr "Завершити"
 
-#: includes/class-morkva-mono-orders.php:67
+#: includes/class-morkva-mono-orders.php:93
 msgid "Go to the website"
 msgstr "Перейти на сайт"
 
@@ -197,32 +189,32 @@ msgstr "Перейти на сайт"
 msgid "Hide logo"
 msgstr "Приховати лого"
 
-#: includes/class-morkva-mono-orders.php:246
-#: includes/class-morkva-mono-orders.php:291
+#: includes/class-morkva-mono-orders.php:272
+#: includes/class-morkva-mono-orders.php:317
 msgid "Hold canceled"
 msgstr "Утримання скасовано"
 
-#: includes/class-morkva-mono-orders.php:213
-#: includes/class-morkva-mono-orders.php:351
+#: includes/class-morkva-mono-orders.php:239
+#: includes/class-morkva-mono-orders.php:377
 msgid "Hold cancellation error: "
 msgstr "Помилка скасування утримання: "
 
 #. %1$s: Formatted invoice finalization amount
-#: includes/class-wc-morkva-mono-gateway.php:613
+#: includes/class-wc-morkva-mono-gateway.php:606
 #, php-format
 msgid "Hold finalization amount %1$s UAH"
 msgstr "Утримати суму доопрацювання %1$s UAH"
 
-#: includes/class-morkva-mono-orders.php:206
-#: includes/class-morkva-mono-orders.php:347
+#: includes/class-morkva-mono-orders.php:232
+#: includes/class-morkva-mono-orders.php:373
 msgid "Hold finalized"
 msgstr "Утримання завершено."
 
-#: includes/class-morkva-mono-orders.php:621
+#: includes/class-morkva-mono-orders.php:647
 msgid "Hold is not applied to the order."
 msgstr "Hold не застосовано до замовлення."
 
-#: includes/class-morkva-mono-orders.php:541
+#: includes/class-morkva-mono-orders.php:567
 msgid "Hold payment Plata by Mono"
 msgstr "Hold платежу Plata by Mono"
 
@@ -246,38 +238,38 @@ msgstr "Оберіть лого"
 msgid "Image width(px)"
 msgstr "Ширина лого(px)"
 
-#: includes/class-morkva-mono-orders.php:257
-#: includes/class-morkva-mono-orders.php:301
-#: includes/class-morkva-mono-orders.php:364
+#: includes/class-morkva-mono-orders.php:283
+#: includes/class-morkva-mono-orders.php:327
+#: includes/class-morkva-mono-orders.php:390
 msgid "Invalid nonce."
 msgstr "Invalid nonce."
 
-#: includes/class-morkva-mono-orders.php:266
-#: includes/class-morkva-mono-orders.php:310
+#: includes/class-morkva-mono-orders.php:292
+#: includes/class-morkva-mono-orders.php:336
 msgid "Invalid order ID."
 msgstr "Invalid order ID."
 
-#: includes/class-morkva-mono-orders.php:720
+#: includes/class-morkva-mono-orders.php:746
 msgid "Invoice ID"
 msgstr "Invoice ID"
 
-#: includes/class-morkva-mono-orders.php:61
+#: includes/class-morkva-mono-orders.php:87
 msgid "Isn’t good enough for a 5"
 msgstr "Не “тягне” на 5"
 
-#: includes/class-morkva-mono-orders.php:53
+#: includes/class-morkva-mono-orders.php:79
 msgid "Leave"
 msgstr "Залишити"
 
-#: includes/class-morkva-mono-orders.php:42
+#: includes/class-morkva-mono-orders.php:68
 msgid "Like this plugin?"
 msgstr "Корисний плагін?"
 
-#: includes/class-wc-morkva-mono-gateway.php:229
+#: includes/class-wc-morkva-mono-gateway.php:223
 msgid "Merchant ID"
 msgstr "Merchant ID"
 
-#: includes/class-morkva-mono-orders.php:672
+#: includes/class-morkva-mono-orders.php:698
 msgid "Mono Acquiring"
 msgstr "Mono Еквайринг"
 
@@ -292,7 +284,7 @@ msgstr "morkva"
 msgid "morkva Plata by Mono Extended"
 msgstr "morkva Plata by Mono Extended"
 
-#: includes/class-wc-morkva-mono-gateway.php:224
+#: includes/class-wc-morkva-mono-gateway.php:218
 msgid "National cashback"
 msgstr "Національний кешбек"
 
@@ -300,11 +292,11 @@ msgstr "Національний кешбек"
 msgid "None"
 msgstr "Відсутнє"
 
-#: includes/class-morkva-mono-orders.php:96
+#: includes/class-morkva-mono-orders.php:122
 msgid "Other free plugins"
 msgstr "Інші безкоштовні плагіни"
 
-#: includes/class-morkva-mono-orders.php:79
+#: includes/class-morkva-mono-orders.php:105
 msgid "Pay by Parts"
 msgstr "Оплата частинами"
 
@@ -312,46 +304,46 @@ msgstr "Оплата частинами"
 msgid "Payment destination"
 msgstr "Призначення платежу"
 
-#: includes/class-morkva-mono-orders.php:83
+#: includes/class-morkva-mono-orders.php:109
 msgid "Payment status validation"
 msgstr "Перевірка статусу платежу"
 
-#: includes/class-morkva-mono-orders.php:536
+#: includes/class-morkva-mono-orders.php:562
 #| msgid "Plata by Mono (Morkva)"
 msgid "Plata by Mono (morkva)"
 msgstr "Plata by Mono (morkva)"
 
-#: includes/class-morkva-mono-orders.php:87
+#: includes/class-morkva-mono-orders.php:113
 msgid "Prepay"
 msgstr "Передоплата"
 
-#: includes/class-morkva-mono-orders.php:690
+#: includes/class-morkva-mono-orders.php:716
 msgid "Processing"
 msgstr "У процесі"
 
-#: includes/class-morkva-mono-orders.php:710
+#: includes/class-morkva-mono-orders.php:736
 msgid "Reference"
 msgstr "Reference"
 
-#: includes/class-wc-morkva-mono-gateway.php:708
+#: includes/class-wc-morkva-mono-gateway.php:701
 msgid "Refund failed."
 msgstr "Повернення коштів не відбулося."
 
 #. %1$s: Refund amount, %2$s: Monobank transaction refund reference ID
-#: includes/class-wc-morkva-mono-gateway.php:734
+#: includes/class-wc-morkva-mono-gateway.php:727
 #, php-format
 msgid "Refunded %1$s - Refund ID: %2$s"
 msgstr "Повернуто %1$s - Refund ID: %2$s"
 
-#: includes/class-wc-morkva-mono-gateway.php:226
+#: includes/class-wc-morkva-mono-gateway.php:220
 msgid "Request Merchant ID and Terminal ID from Mono support"
 msgstr "Запросіть Merchant ID та Terminal ID у підтримки Mono"
 
-#: includes/class-wc-morkva-mono-gateway.php:253
+#: includes/class-wc-morkva-mono-gateway.php:247
 msgid "Return to payments"
 msgstr "Повернутись до оплат"
 
-#: includes/class-morkva-mono-orders.php:50
+#: includes/class-morkva-mono-orders.php:76
 msgid "review at"
 msgstr "відгуком на"
 
@@ -365,19 +357,19 @@ msgstr "Оберіть статус, на який зміниться замов
 msgid "Shortcodes:"
 msgstr "Шорткоди:"
 
-#: includes/class-morkva-mono-orders.php:679
+#: includes/class-morkva-mono-orders.php:705
 msgid "Status"
 msgstr "Статус"
 
-#: includes/class-wc-morkva-mono-gateway.php:631
-#: includes/class-wc-morkva-mono-gateway.php:645
+#: includes/class-wc-morkva-mono-gateway.php:624
+#: includes/class-wc-morkva-mono-gateway.php:638
 #: includes/class-morkva-mono-subscribe.php:127
 #: includes/class-morkva-mono-subscribe.php:136
-#: includes/class-morkva-mono-orders.php:481
+#: includes/class-morkva-mono-orders.php:507
 msgid "Status changed to: "
 msgstr "Статус замовлення змінено на: "
 
-#: includes/class-wc-morkva-mono-gateway.php:386
+#: includes/class-wc-morkva-mono-gateway.php:380
 #, php-format
 msgid "Status changed to: %s"
 msgstr "Статус змінено на: %s"
@@ -386,11 +378,11 @@ msgstr "Статус змінено на: %s"
 msgid "Status of completed payment"
 msgstr "Статус успішної оплати"
 
-#: includes/class-morkva-mono-orders.php:696
+#: includes/class-morkva-mono-orders.php:722
 msgid "Success"
 msgstr "Виконано"
 
-#: includes/class-morkva-mono-orders.php:44
+#: includes/class-morkva-mono-orders.php:70
 msgid "Support our efforts with a"
 msgstr "Підтримайте наші зусилля"
 
@@ -404,7 +396,7 @@ msgstr ""
 "наприклад: Оплата за замовлення №{order_id} від {billing_last_name} "
 "{billing_first_name}."
 
-#: includes/class-wc-morkva-mono-gateway.php:236
+#: includes/class-wc-morkva-mono-gateway.php:230
 msgid "Terminal ID"
 msgstr "Terminal ID"
 
@@ -425,14 +417,18 @@ msgid "Test mode Settings"
 msgstr "Тестовий режим"
 
 #: includes/class-wc-morkva-mono-gateway.php:142
+#| msgid ""
+#| "The payment is held for 9 days. After this period, the payment is "
+#| "automatically finalized. You can finalize it manually from the order page,"
+#| " or it will be finalized automatically when the status changes."
 msgid ""
 "The payment is held for 9 days. After this period, the payment is "
-"automatically finalized. You can finalize it manually from the order page, "
+"automatically cancelled. You can finalize it manually from the order page, "
 "or it will be finalized automatically when the status changes."
 msgstr ""
-"Утримання платежу 9 днів. Після цього періоду платіж автоматично "
-"фіналізується. Можете фіналізувати вручну зі сторінки замовлення, або "
-"автоматично при зміні статусу."
+"Утримання платежу 9 днів. Якщо через 9 днів холд не буде фіналізовано - він "
+"скасовується. Можете фіналізувати вручну зі сторінки замовлення, або "
+"автоматично при зміні статусу замовлення на обраний нижче. "
 
 #: includes/class-wc-morkva-mono-gateway.php:113
 msgid "This controls the description which the user sees during checkout."
@@ -467,9 +463,9 @@ msgstr ""
 "Дізнатися свій X-Token можна за посиланням: <a href=\"https://web.monobank."
 "ua/\" target=\"blank\">web.monobank.ua</a>"
 
-#: includes/class-morkva-mono-orders.php:262
-#: includes/class-morkva-mono-orders.php:306
-#: includes/class-morkva-mono-orders.php:369
+#: includes/class-morkva-mono-orders.php:288
+#: includes/class-morkva-mono-orders.php:332
+#: includes/class-morkva-mono-orders.php:395
 msgid "You do not have permission to edit orders."
 msgstr "You do not have permission to edit orders."
 
