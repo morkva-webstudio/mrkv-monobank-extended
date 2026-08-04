@@ -346,7 +346,12 @@ if (!class_exists('MorkvaMonopayOrders'))
 		        	# Get token by mono gateway
 		    		$wc_gateways      = WC()->payment_gateways();
 		    		$payment_gateways = $wc_gateways->get_available_payment_gateways();
-		    		$mono_payment_gateway = $payment_gateways['morkva-monopay'];
+		    		$mono_payment_gateway = $payment_gateways['morkva-monopay'] ?? null;
+
+					if ( ! $mono_payment_gateway ) {
+						return;
+					}
+
 		    		$mrkv_mono_token = $mono_payment_gateway->get_mrkv_mono_getToken();
 
 		    		$mrkvmonoOrder = new Morkva_Mono_Order();
@@ -400,7 +405,12 @@ if (!class_exists('MorkvaMonopayOrders'))
 				# Get token by mono gateway
 	    		$wc_gateways      = WC()->payment_gateways();
 	    		$payment_gateways = $wc_gateways->get_available_payment_gateways();
-	    		$mono_payment_gateway = $payment_gateways['morkva-monopay'];
+	    		$mono_payment_gateway = $payment_gateways['morkva-monopay'] ?? null;
+
+				if ( ! $mono_payment_gateway ) {
+					return;
+				}
+				
 	    		$mrkv_mono_token = $mono_payment_gateway->get_mrkv_mono_getToken();
 
 				# Create request header
