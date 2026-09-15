@@ -123,11 +123,6 @@ if (!class_exists('MorkvaMonopaySubscribe'))
 
 			    		if($result)
 				        {
-				        	$new_status_name = wc_get_order_status_name('processing');
-                    		$note_status = '[morkva plata] ' . __('Status changed to: ', 'morkva-monobank-extended') . $new_status_name;
-				            # Avoid creating 100s "processing" orders
-				            $order->update_status( 'processing', $note_status, true );
-				            $order->save();
 				            $order->payment_complete();
 				        }
 				        else

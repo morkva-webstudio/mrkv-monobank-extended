@@ -353,6 +353,12 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
         $mrkvmonoOrder->mrkv_mono_setAmount(round($order->get_total() * 100));
         $mrkvmonoOrder->mrkv_mono_setBasketOrder($basket_info);
 
+        $email = $order->get_billing_email();
+
+        if (is_email($email)) {
+            $mrkvmonoOrder->mrkv_mono_setCustomerEmails([$email]);
+        }
+
         if (!empty($global_discounts)) {
             $mrkvmonoOrder->mrkv_mono_setDiscounts($global_discounts);
         }
@@ -368,7 +374,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
 
         $web_url = get_site_url();
         $mrkvmonoOrder->mrkv_mono_setRedirectUrl($this->get_return_url($order));
-        $mrkvmonoOrder->mrkv_mono_setWebHookUrl($web_url . '/?wc-api=morkva-monopay');
+        $mrkvmonoOrder->mrkv_mono_setWebHookUrl(WC()->api_request_url('morkva-monopay'));
     
         $mrkv_mono_payment = new Morkva_Mono_Payment($mrkv_mono_token);
         $mrkv_mono_payment->mrkv_mono_setOrder($mrkvmonoOrder);
@@ -380,6 +386,12 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
                     $note = sprintf(__('Status changed to: %s', 'morkva-monobank-extended'), wc_get_order_status_name('pending'));
                     $order->update_status('pending', '[morkva] ' . $note, true);
                 }
+
+                if (!empty($mrkv_mono_invoice->invoiceId)) {
+                    $order->update_meta_data('mrkv_mopay_accuiring_invoice_id', $mrkv_mono_invoice->invoiceId);
+                    update_post_meta($order_id, 'mrkv_mopay_accuiring_invoice_id', $mrkv_mono_invoice->invoiceId);
+                }
+
                 $order->save();
 
                 return [
@@ -620,17 +632,24 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
 
                 $new_order_status = ($this->get_option( 'monopay_order_status' ) && $this->get_option( 'monopay_order_status' ) != '') ? $this->get_option( 'monopay_order_status' ) : 'processing';
 
-                $new_status_name = wc_get_order_status_name($new_order_status);
-                $note_status = '[morkva plata] ' . __('Status changed to: ', 'morkva-monobank-extended') . $new_status_name;
-                # Update order status
-                $mrkv_mono_order->update_status($new_order_status, $note_status, true);
-
                 if (!empty($mrkv_mono_callback['invoiceId'])) {
                     $mrkv_mono_order->set_transaction_id($mrkv_mono_callback['invoiceId']);
                     $mrkv_mono_order->save(); 
                 }
 
+                $force_status = function ( $status ) use ( $new_order_status ) {
+                    return $new_order_status ?: $status;
+                };
+
+                if ( $new_order_status ) {
+                    add_filter( 'woocommerce_payment_complete_order_status', $force_status );
+                }
+
                 $mrkv_mono_order->payment_complete($mrkv_mono_response->mrkv_mono_getInvoiceId());
+
+                if ( $new_order_status ) {
+                    remove_filter( 'woocommerce_payment_complete_order_status', $force_status );
+                }
             }
             elseif($mrkv_mono_response->mrkv_mono_isHold())
             {
@@ -893,6 +912,12 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             $mrkvmonoOrder->mrkv_mono_setAmount($order_main_amount);
             $mrkvmonoOrder->mrkv_mono_setBasketOrder($mrkv_mono_basket_info);
 
+            $email = $renewal_order->get_billing_email();
+
+            if (is_email($email)) {
+                $mrkvmonoOrder->mrkv_mono_setCustomerEmails([$email]);
+            }
+
             $mrkv_mono_destination = $this->mrkv_mono_render_destination( $renewal_order );
             if ( $mrkv_mono_destination === '' ) {
                 $mrkv_mono_destination = $renewal_order->get_billing_last_name() . ' ' .
@@ -905,7 +930,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             $web_url = get_site_url();
             if($web_url){
                 $mrkvmonoOrder->mrkv_mono_setRedirectUrl($web_url . '/checkout/order-received/' . $renewal_order->get_id() . '/?key=' . $renewal_order->get_order_key());
-                $mrkvmonoOrder->mrkv_mono_setWebHookUrl($web_url . '/?wc-api=morkva-monopay-subscribe');
+                $mrkvmonoOrder->mrkv_mono_setWebHookUrl(WC()->api_request_url('morkva-monopay-subscribe'));
             }
 
             # Get user token

@@ -124,6 +124,7 @@ class Morkva_Mono_Payment
             'merchantPaymInfo' => array(
                 'reference' => $this->mrkv_mono_order->mrkv_mono_getReference(),
                 'destination' => $this->mrkv_mono_order->mrkv_mono_getDestination(),
+                'customerEmails' => $this->mrkv_mono_order->mrkv_mono_getCustomerEmails(),
                 'discounts' => $this->mrkv_mono_order->mrkv_mono_getDiscounts(),
                 'basketOrder' => $this->mrkv_mono_order->mrkv_mono_getBasketOrder(),
             ),
@@ -153,6 +154,7 @@ class Morkva_Mono_Payment
             'merchantPaymInfo' => array(
                 'reference' => $this->mrkv_mono_order->mrkv_mono_getReference(),
                 'destination' => $this->mrkv_mono_order->mrkv_mono_getDestination(),
+                'customerEmails' => $this->mrkv_mono_order->mrkv_mono_getCustomerEmails(),
                 'basketOrder' => $this->mrkv_mono_order->mrkv_mono_getBasketOrder(),
             ),
             'redirectUrl' => $this->mrkv_mono_order->mrkv_mono_getRedirectUrl(),

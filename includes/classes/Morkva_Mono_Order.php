@@ -64,6 +64,11 @@ class Morkva_Mono_Order
     protected $mrkv_mono_cardToken;
 
     /**
+     * @var string Hold active
+     * */
+    protected $mrkv_mono_customerEmails;
+
+    /**
      * Set order id
      * @param integer Order number
      * */
@@ -121,6 +126,16 @@ class Morkva_Mono_Order
     {
         # Set data
         $this->mrkv_mono_basketOrder = $basket_info;
+    }
+
+    /**
+     * Set customer emails
+     * @param array Customer emails 
+     * */
+    public function mrkv_mono_setCustomerEmails($customer_emails) 
+    {
+        # Set data
+        $this->mrkv_mono_customerEmails = $customer_emails;
     }
 
     /**
@@ -258,6 +273,16 @@ class Morkva_Mono_Order
     {
         # Get data
         return $this->mrkv_mono_basketOrder;
+    }
+
+    /**
+     * Get customer emails
+     * @return array Customer emails
+     * */
+    public function mrkv_mono_getCustomerEmails(): array
+    {
+        # Get data
+        return $this->mrkv_mono_customerEmails;
     }
 
     /**
