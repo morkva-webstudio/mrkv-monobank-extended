@@ -78,16 +78,12 @@ class Morkva_Mono_Payment
 
         if($enabled_debug_log)
         {
-            $logger = wc_get_logger();
-            $context = array( 'source' => 'morkva-monobank-extended' );
-
-            $log_message = "--- Monobank Request ---\n";
-            $log_message .= "URL: " . $mrkv_mono_url . "\n";
-            $log_message .= "Body: " . json_encode($mrkv_mono_body, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n";
-            $log_message .= "Answer: " . wp_json_encode( $mrkv_mono_request, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) . "\n";
-            $log_message .= "------------------------";
-
-            $logger->debug( $log_message, $context );
+            # Headers are never logged: they carry the merchant X-Token
+            \MRKV_MONO_LOG::mrkv_mono_debug('Monobank Request', array(
+                'URL'    => $mrkv_mono_url,
+                'Body'   => $mrkv_mono_body,
+                'Answer' => $mrkv_mono_request,
+            ));
         }
 
         # Check request status

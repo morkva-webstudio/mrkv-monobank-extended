@@ -42,17 +42,18 @@ if (!class_exists('MorkvaMonopayOrders'))
 
 		public function mrkv_mono_clean_logs() {
 			$log_dir = defined( 'WC_LOG_DIR' ) ? WC_LOG_DIR : WP_CONTENT_DIR . '/uploads/wc-logs/';
-			$source  = 'mrkv-monobank-extended';
+			$source  = MRKV_MONO_LOG::SOURCE;
 			$files = glob( $log_dir . $source . '*.log' );
 
 			if ( ! empty( $files ) && is_array( $files ) ) {
-				$three_days_ago = time() - ( 3 * DAY_IN_SECONDS ); 
+				# A customer may report a failed payment days later, so keep a week of history
+				$expires_before = time() - ( MRKV_MONO_LOG::RETENTION_DAYS * DAY_IN_SECONDS );
 
 				foreach ( $files as $file ) {
 					if ( file_exists( $file ) ) {
 						$file_modified_time = filemtime( $file );
 
-						if ( $file_modified_time < $three_days_ago ) {
+						if ( $file_modified_time < $expires_before ) {
 							@unlink( $file );
 						}
 					}

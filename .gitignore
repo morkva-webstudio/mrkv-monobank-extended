@@ -1,0 +1,5 @@
+# Stray logs must never ship inside the plugin directory: they are downloadable over HTTP
+debug.log
+*.log
+*.bak
+*.bak.*

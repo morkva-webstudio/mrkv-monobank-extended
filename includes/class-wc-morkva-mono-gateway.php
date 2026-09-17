@@ -232,6 +232,17 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
                 'desc_tip'    => true,
                 'description' => __( 'Enter Terminal ID', 'morkva-monobank-extended' ),
                 'default'     => '',
+            ),
+            'mono_debug_title' => array(
+                'title' => __( 'Debug log', 'morkva-monobank-extended' ),
+                'type' => 'title',
+            ),
+            'monopay_debug_log' => array(
+                'title' => __( 'Debug log', 'morkva-monobank-extended' ),
+                'type' => 'checkbox',
+                'label' => '<span>' . __( 'Enable debug log', 'morkva-monobank-extended' ) . '</span>',
+                'default' => 'yes',
+                'description' => __( 'Writes requests to and callbacks from Monobank to WooCommerce > Status > Logs, so that a failed payment can be diagnosed without asking the customer to pay again. Card tokens, e-mails and phone numbers are masked; entries are deleted automatically after 7 days. Leave it on unless your privacy policy requires otherwise.', 'morkva-monobank-extended' ),
             )
         );
     }
@@ -380,7 +391,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
         $mrkv_mono_payment->mrkv_mono_setOrder($mrkvmonoOrder);
 
         try {
-            $mrkv_mono_invoice = $mrkv_mono_payment->mrkv_mono_create(true);
+            $mrkv_mono_invoice = $mrkv_mono_payment->mrkv_mono_create(MRKV_MONO_LOG::mrkv_mono_is_enabled());
             if (!empty($mrkv_mono_invoice->pageUrl)) {
                 if ($order->get_status() !== 'pending') {
                     $note = sprintf(__('Status changed to: %s', 'morkva-monobank-extended'), wc_get_order_status_name('pending'));
@@ -488,14 +499,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
         $mrkv_mono_callback = json_decode($mrkv_mono_callback_json, true);
 
         
-        $logger = wc_get_logger();
-        $context = array( 'source' => 'morkva-monobank-extended' );
-
-        $log_message = "--- Monobank Callback ---\n";
-        $log_message .= "Answer: " . wp_json_encode( $mrkv_mono_callback, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) . "\n";
-        $log_message .= "------------------------";
-
-        $logger->debug( $log_message, $context );
+        MRKV_MONO_LOG::mrkv_mono_debug( 'Monobank Callback', array( 'Answer' => $mrkv_mono_callback ) );
         
 
         # Check callback data
@@ -944,7 +948,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             $mrkv_mono_payment->mrkv_mono_setOrder($mrkvmonoOrder);
 
             # Create invoice
-            $mrkv_mono_invoice = $mrkv_mono_payment->mrkv_mono_create_subscribe(true);
+            $mrkv_mono_invoice = $mrkv_mono_payment->mrkv_mono_create_subscribe(MRKV_MONO_LOG::mrkv_mono_is_enabled());
             
             if(isset($mrkv_mono_invoice->status) && $mrkv_mono_invoice->status == 'success')
             {
