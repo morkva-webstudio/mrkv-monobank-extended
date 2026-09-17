@@ -3,7 +3,7 @@ Contributors: bandido, dpmine
 Plugin Name: morkva Plata by Mono Extended
 Tags: Plata, Моно, Монобанк, еквайринг
 Tested up to: 7.1
-Stable tag: 1.6.7
+Stable tag: 1.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,12 @@ https://www.youtube.com/watch?v=nBNLgDvOBQc
 5. Вигляд веб кабінету монобанку де слід розпочинати активацію оплат на сайті.
 
 == Changelog ==
+
+= 1.6.8 =
+* [fix] прибрали з дебаг-логу токени карток, email та телефони покупців
+* [fix] полагодили автоматичне видалення старих лог-файлів, термін зберігання — 7 днів
+* [fix] прибрали з плагіна порожній файл debug.log
+* [new] додали в налаштування шлюзу перемикач дебаг-логу
 
 = 1.6.7 =
 * [new] змінили метод оновлення статусу замовлення при успішній оплаті
