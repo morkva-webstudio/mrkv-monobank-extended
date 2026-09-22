@@ -74,9 +74,9 @@ if (!class_exists('MorkvaMonopayOrders'))
 							<img src="<?php echo esc_url( plugins_url( '../assets/images/star.svg', __FILE__ ) ); ?>" alt="Star" alt="Star">
 							<img src="<?php echo esc_url( plugins_url( '../assets/images/star.svg', __FILE__ ) ); ?>" alt="Star" alt="Star">
 							<img src="<?php echo esc_url( plugins_url( '../assets/images/star.svg', __FILE__ ) ); ?>" alt="Star" alt="Star">
-							<?php echo esc_html__( 'review at', 'morkva-monobank-extended' ) . ' <a href="https://wordpress.org/plugins/mrkv-monobank-extended/" target="blanc">WordPress.org</a>'; ?>
+							<?php echo esc_html__( 'review at', 'morkva-monobank-extended' ) . ' <a href="https://wordpress.org/plugins/mrkv-monobank-extended/" target="_blank">WordPress.org</a>'; ?>
 						</p>
-						<a class="button button-primary" href="https://wordpress.org/plugins/mrkv-monobank-extended/" target="blanc">
+						<a class="button button-primary" href="https://wordpress.org/plugins/mrkv-monobank-extended/" target="_blank">
 							<?php echo esc_html__( 'Leave', 'morkva-monobank-extended' ) . ' '; ?>
 							<img src="<?php echo esc_url( plugins_url( '../assets/images/star.svg', __FILE__ ) ); ?>" alt="Star" alt="Star">
 							<img src="<?php echo esc_url( plugins_url( '../assets/images/star.svg', __FILE__ ) ); ?>" alt="Star" alt="Star">
@@ -87,13 +87,13 @@ if (!class_exists('MorkvaMonopayOrders'))
 						<p>
 							<?php echo esc_html__( 'Isn’t good enough for a 5', 'morkva-monobank-extended' ) . ' '; ?>
 							<img src="<?php echo esc_url( plugins_url( '../assets/images/star.svg', __FILE__ ) ); ?>" alt="Star" alt="Star">? 
-							<?php echo esc_html__( 'Contact us via the widget on our website, or check out', 'morkva-monobank-extended' ) . ' <a href="https://docs.morkva.co.ua/uk?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="blanc">' . esc_html__( 'documantation', 'morkva-monobank-extended' ) . '</a>'; ?>
+							<?php echo esc_html__( 'Contact us via the widget on our website, or check out', 'morkva-monobank-extended' ) . ' <a href="https://docs.morkva.co.ua/uk?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="_blank">' . esc_html__( 'documantation', 'morkva-monobank-extended' ) . '</a>'; ?>
 						</p>
 						<div class="mrkv-btns-line-sidebar" style="display: flex;gap: 4px;">
-							<a class="button button-primary" href="https://morkva.co.ua/?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="blanc">
+							<a class="button button-primary" href="https://morkva.co.ua/?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="_blank">
 								<?php echo esc_html__( 'Go to the website', 'morkva-monobank-extended' ); ?>
 							</a>
-							<a class="button" href="https://docs.morkva.co.ua/uk?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="blanc">
+							<a class="button" href="https://docs.morkva.co.ua/uk?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="_blank">
 								<?php echo esc_html__( 'Documantation', 'morkva-monobank-extended' ); ?>
 							</a>
 						</div>
@@ -115,7 +115,7 @@ if (!class_exists('MorkvaMonopayOrders'))
 							</li>
 							<li><?php echo esc_html__( 'and more', 'morkva-monobank-extended' ); ?></li>
 						</ul>
-						<a class="button button-primary" href="https://morkva.co.ua/shop/woocommerce-plata-by-mono-extended-pro?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="blanc">
+						<a class="button button-primary" href="https://morkva.co.ua/shop/woocommerce-plata-by-mono-extended-pro?utm_source=plugin&utm_medium=sidebar&utm_campaign=plata_free" target="_blank">
 							<?php echo esc_html__( 'Buy Pro-version', 'morkva-monobank-extended' ); ?>
 						</a>
 					</div>
@@ -123,17 +123,37 @@ if (!class_exists('MorkvaMonopayOrders'))
 						<h3 style="margin-top: 0;"><?php echo esc_html( __( 'Other free plugins', 'morkva-monobank-extended' ) ); ?></h3>
 						<p><?php echo esc_html__( 'All our plugins are cross-compatible', 'morkva-monobank-extended' ); ?></p>
 						<?php
-							$response = wp_remote_get( 'https://morkva.co.ua/wp-json/pluginManagement/v2', array(
-								'headers' => array(
-								),
-								'timeout' => 30,
-								'redirection' => 5,
-								'httpversion' => '1.1',
-								'sslverify' => true
-							));
+							$mrkv_mono_transient_key = 'morkva_plugin_management_data';
+							$mrkv_mono_cached_data = get_transient( $mrkv_mono_transient_key );
+							if ( false !== $mrkv_mono_cached_data ) {
+								$mrkv_mono_data = ( 'error' === $mrkv_mono_cached_data ) ? false : $mrkv_mono_cached_data;
+							} else {
+								
+								$mrkv_mono_response = wp_remote_get( 'https://morkva.co.ua/wp-json/pluginManagementPro/v2', array(
+									'headers'     => array(),
+									'timeout'     => 6,
+									'redirection' => 5,
+									'httpversion' => '1.1',
+									'sslverify'   => true,
+								) );
 
-							$mrkv_mono_response_data = $response['body'] ? json_decode( $response['body'], true ) : null;
-							$mrkv_mono_plugins = $mrkv_mono_response_data['plugins'] ?? [];
+								if ( is_wp_error( $mrkv_mono_response ) || 200 !== wp_remote_retrieve_response_code( $mrkv_mono_response ) ) {
+									set_transient( $mrkv_mono_transient_key, 'error', HOUR_IN_SECONDS );
+									$mrkv_mono_data = false;
+								} else {
+									$mrkv_mono_body = wp_remote_retrieve_body( $mrkv_mono_response );
+									$mrkv_mono_data = json_decode( $mrkv_mono_body, true );
+
+									if ( empty( $mrkv_mono_data ) || ! is_array( $mrkv_mono_data ) ) {
+										set_transient( $mrkv_mono_transient_key, 'error', HOUR_IN_SECONDS );
+										$mrkv_mono_data = false;
+									} else {
+										set_transient( $mrkv_mono_transient_key, $mrkv_mono_data, 12 * HOUR_IN_SECONDS );
+									}
+								}
+							}
+
+							$mrkv_mono_plugins = ( is_array( $mrkv_mono_data ) && isset( $mrkv_mono_data['plugins'] ) ) ? $mrkv_mono_data['plugins'] : [];
 
 							if(!empty($mrkv_mono_plugins))
 							{
@@ -145,7 +165,7 @@ if (!class_exists('MorkvaMonopayOrders'))
 												if($plugin_slug == 'morkva-monobank-extended'){ continue; }
 												?>
 													<li>
-														<a style="margin-bottom:5px;" href="<?php echo esc_url( $plugin_data['url'] ?? '' ); ?>" target="blanc" class="plugin_line"><?php echo esc_html( $plugin_data['label'] ?? '' ); ?></a>
+														<a style="margin-bottom:5px;" href="<?php echo esc_url( $plugin_data['url'] ?? '' ); ?>" target="_blank" class="plugin_line"><?php echo esc_html( $plugin_data['label'] ?? '' ); ?></a>
 														<span>- 
 														<?php 
 															$current_desc = (strpos(get_user_locale(), 'uk') === 0) 
