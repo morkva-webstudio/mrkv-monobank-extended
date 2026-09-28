@@ -13,6 +13,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
      * @var string Token connect with monopay
      * */
     private $mrkv_mono_token;
+    private static $cached_raw_input = null;
 
     /**
      * Constructor for the gateway
@@ -50,9 +51,6 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
         # Include functions
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_action('woocommerce_api_morkva-monopay', array($this, 'mrkv_mono_callback_success'));
-        
-        # Callback function
-        add_action('woocommerce_thankyou_'.$this->id, array( $this, 'return_handler' ) );
 
         # Add payment image
         add_filter( 'woocommerce_gateway_icon', array( $this, 'morkva_monopay_gateway_icon' ), 100, 2 );
@@ -67,6 +65,14 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             # Include scripts
             add_action('admin_enqueue_scripts', array($this, 'mrkv_mono_scripts_settings'));
         }
+    }
+
+    public static function get_raw_input() 
+    {
+        if ( null === self::$cached_raw_input ) {
+            self::$cached_raw_input = file_get_contents( 'php://input' );
+        }
+        return self::$cached_raw_input;
     }
 
     /**
@@ -479,167 +485,172 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
     }
 
     /**
-     * Add Callback function. Handle
-     * */
-    public function return_handler() 
-    {
-        # Main callback
-        $this->mrkv_mono_callback_success();
-    }
-
-    /**
      * Callback success function
      * */
     public function mrkv_mono_callback_success() 
     {   
-        # Get content
-        $mrkv_mono_callback_json = @file_get_contents('php://input');
+        if ( isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+            return;
+        }
 
-        # Get callback data
+        $mrkv_mono_callback_json = self::get_raw_input();
+
+        if ( empty( $mrkv_mono_callback_json ) ) {
+            return;
+        }
+
         $mrkv_mono_callback = json_decode($mrkv_mono_callback_json, true);
 
-        
         MRKV_MONO_LOG::mrkv_mono_debug( 'Monobank Callback', array( 'Answer' => $mrkv_mono_callback ) );
-        
 
-        # Check callback data
-        if($mrkv_mono_callback){
-            # Get response
-            $mrkv_mono_response = new \MorkvaMonoGateway\Morkva_Mono_Response($mrkv_mono_callback);
+        if ( $mrkv_mono_callback && isset($mrkv_mono_callback['reference']) ) {
+            
+            $mrkv_mono_order_id = (int) $mrkv_mono_callback['reference'];
+            $mrkv_mono_order    = wc_get_order( $mrkv_mono_order_id );
 
-            if(isset($mrkv_mono_callback['reference']))
-            {
-                $mrkv_mono_order_id = (int)$mrkv_mono_response->mrkv_mono_getOrderId();
-                $mrkv_mono_order = wc_get_order( $mrkv_mono_order_id );
-
-                if(!$mrkv_mono_order)
-                {
-                    return;
-                }
-
-                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_payment_method', 'morkva-monopay');
-                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_payment_method', 'morkva-monopay' );
-
-                do_action('mrkv_mono_plata_callback', $mrkv_mono_order, $mrkv_mono_response, 'morkva-monopay');
-
-                if(isset($mrkv_mono_callback['status']))
-                {
-                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_status',  $mrkv_mono_callback['status']);
-                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_status',  $mrkv_mono_callback['status'] );
-                }
-                if(isset($mrkv_mono_callback['reference']))
-                {
-                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_reference',  $mrkv_mono_callback['reference']);
-                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_reference',  $mrkv_mono_callback['reference'] );
-                }
-                if(isset($mrkv_mono_callback['invoiceId']))
-                {
-                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_invoice_id',  $mrkv_mono_callback['invoiceId']);
-                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_invoice_id',  $mrkv_mono_callback['invoiceId'] );
-                }
-                if(isset($mrkv_mono_callback['failureReason']))
-                {
-                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_failure_reason',  $mrkv_mono_callback['failureReason']);
-                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_failure_reason',  $mrkv_mono_callback['failureReason'] );
-                }
-                if(isset($mrkv_mono_callback['paymentInfo']))
-                {
-                    if(isset($mrkv_mono_callback['paymentInfo']['maskedPan']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_masked_pan',  $mrkv_mono_callback['paymentInfo']['maskedPan']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_masked_pan',  $mrkv_mono_callback['paymentInfo']['maskedPan'] );
-                    }
-                    if(isset($mrkv_mono_callback['paymentInfo']['approvalCode']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_approval_code',  $mrkv_mono_callback['paymentInfo']['approvalCode']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_approval_code',  $mrkv_mono_callback['paymentInfo']['approvalCode'] );
-                    }
-                    if(isset($mrkv_mono_callback['paymentInfo']['rrn']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_rrn',  $mrkv_mono_callback['paymentInfo']['rrn']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_rrn',  $mrkv_mono_callback['paymentInfo']['rrn'] );
-                    }
-
-                    if($this->get_option( 'national_cashback_merchant_id' ))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_tran_id',  $this->get_option( 'national_cashback_merchant_id' ));
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_tran_id',  $this->get_option( 'national_cashback_merchant_id' ) );
-                    }
-                    elseif(isset($mrkv_mono_callback['paymentInfo']['tranId']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_tran_id',  $mrkv_mono_callback['paymentInfo']['tranId']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_tran_id',  $mrkv_mono_callback['paymentInfo']['tranId'] );
-                    }
-
-                    if($this->get_option( 'national_cashback_terminal_id' )){
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_terminal',  $this->get_option( 'national_cashback_terminal_id' ));
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_terminal',  $this->get_option( 'national_cashback_terminal_id' ) );
-                    }
-                    elseif(isset($mrkv_mono_callback['paymentInfo']['terminal']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_terminal',  $mrkv_mono_callback['paymentInfo']['terminal']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_terminal',  $mrkv_mono_callback['paymentInfo']['terminal'] );
-                    }
-                    if(isset($mrkv_mono_callback['paymentInfo']['paymentSystem']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_system',  $mrkv_mono_callback['paymentInfo']['paymentSystem']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_system',  $mrkv_mono_callback['paymentInfo']['paymentSystem'] );
-                    }
-                    if(isset($mrkv_mono_callback['paymentInfo']['paymentMethod']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_method',  $mrkv_mono_callback['paymentInfo']['paymentMethod']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_method',  $mrkv_mono_callback['paymentInfo']['paymentMethod'] );
-                    }
-                    if(isset($mrkv_mono_callback['paymentInfo']['fee']))
-                    {
-                        $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_fee',  $mrkv_mono_callback['paymentInfo']['fee']);
-                        update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_fee',  $mrkv_mono_callback['paymentInfo']['fee'] );
-                    }
-                }
-
-                $mrkv_mono_order->save();
+            if ( ! $mrkv_mono_order ) {
+                return;
             }
 
-            $invoice_final_amount = isset($mrkv_mono_callback['finalAmount']) ? $mrkv_mono_callback['finalAmount'] : 0;
-            $amount = isset($mrkv_mono_callback['amount']) ? $mrkv_mono_callback['amount'] : 0;
+            if ( $mrkv_mono_order->is_paid() ) {
+                return;
+            }
 
-            # Check status
-            if($mrkv_mono_response->mrkv_mono_isComplete()) {
-                global $woocommerce;
+            $webhook_invoice_id = isset($mrkv_mono_callback['invoiceId']) ? sanitize_text_field($mrkv_mono_callback['invoiceId']) : '';
+            $saved_invoice_id   = $mrkv_mono_order->get_meta('mrkv_mopay_accuiring_invoice_id');
 
-                $mrkv_mono_order_id = (int)$mrkv_mono_response->mrkv_mono_getOrderId();
-                $mrkv_mono_order = wc_get_order( $mrkv_mono_order_id );
+            if ( ! empty($saved_invoice_id) && $saved_invoice_id !== $webhook_invoice_id ) {
+                MRKV_MONO_LOG::mrkv_mono_debug( 'Monobank Security Alert', array(
+                    'Error'    => 'Mismatch invoiceId',
+                    'Saved'    => $saved_invoice_id,
+                    'Received' => $webhook_invoice_id
+                ) );
+                return;
+            }
 
-                if(!$mrkv_mono_order)
-                {
-                    return;
+            $mrkv_mono_token    = $this->mrkv_mono_getToken();
+            $mrkv_mono_payment  = new \MorkvaMonoGateway\Morkva_Mono_Payment($mrkv_mono_token);
+            $mrkvmonoOrder = new Morkva_Mono_Order();
+            $mrkvmonoOrder->mrkv_mono_setId($mrkv_mono_order_id);
+            $mrkv_mono_payment->mrkv_mono_setOrder($mrkvmonoOrder);
+            $remote_status_data = $mrkv_mono_payment->mrkv_mono_get_invoice_status($webhook_invoice_id);
+
+            if ( ! $remote_status_data || empty($remote_status_data->status) ) {
+                MRKV_MONO_LOG::mrkv_mono_debug( 'Monobank Verification Error', array( 'Error' => 'Failed to verify invoice status with Monobank API' ) );
+                return;
+            }
+
+            $real_status = $remote_status_data->status;
+
+            if ( $real_status !== $mrkv_mono_callback['status'] ) {
+                MRKV_MONO_LOG::mrkv_mono_debug( 'Monobank Security Alert', array(
+                    'Error'         => 'Status mismatch between webhook and Monobank API',
+                    'WebhookStatus' => $mrkv_mono_callback['status'],
+                    'APIStatus'     => $real_status
+                ) );
+                return;
+            }
+
+            $mrkv_mono_order->update_meta_data( 'mrkv_mopay_payment_method', 'morkva-monopay');
+            update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_payment_method', 'morkva-monopay' );
+
+            $mrkv_mono_response = new \MorkvaMonoGateway\Morkva_Mono_Response($mrkv_mono_callback);
+            do_action('mrkv_mono_plata_callback', $mrkv_mono_order, $mrkv_mono_response, 'morkva-monopay');
+
+            if ( isset($mrkv_mono_callback['status']) ) {
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_status', $mrkv_mono_callback['status']);
+            }
+            if ( isset($mrkv_mono_callback['reference']) ) {
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_reference', $mrkv_mono_callback['reference']);
+                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_reference', $mrkv_mono_callback['reference'] );
+            }
+            if ( ! empty($webhook_invoice_id) ) {
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_invoice_id', $webhook_invoice_id);
+                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_invoice_id', $webhook_invoice_id );
+            }
+            if ( isset($mrkv_mono_callback['failureReason']) ) {
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_failure_reason', $mrkv_mono_callback['failureReason']);
+                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_failure_reason', $mrkv_mono_callback['failureReason'] );
+            }
+
+            if ( isset($mrkv_mono_callback['paymentInfo']) ) {
+                $p_info = $mrkv_mono_callback['paymentInfo'];
+
+                if ( isset($p_info['maskedPan']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_masked_pan', $p_info['maskedPan']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_masked_pan', $p_info['maskedPan'] );
+                }
+                if ( isset($p_info['approvalCode']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_approval_code', $p_info['approvalCode']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_approval_code', $p_info['approvalCode'] );
+                }
+                if ( isset($p_info['rrn']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_rrn', $p_info['rrn']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_rrn', $p_info['rrn'] );
                 }
 
-                if ($invoice_final_amount != $amount) {
-                    // translators: %1$s: Formatted invoice finalization amount
+                if ( $this->get_option( 'national_cashback_merchant_id' ) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_tran_id', $this->get_option( 'national_cashback_merchant_id' ));
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_tran_id', $this->get_option( 'national_cashback_merchant_id' ) );
+                } elseif ( isset($p_info['tranId']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_tran_id', $p_info['tranId']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_tran_id', $p_info['tranId'] );
+                }
+
+                if ( $this->get_option( 'national_cashback_terminal_id' ) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_terminal', $this->get_option( 'national_cashback_terminal_id' ));
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_terminal', $this->get_option( 'national_cashback_terminal_id' ) );
+                } elseif ( isset($p_info['terminal']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_terminal', $p_info['terminal']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_terminal', $p_info['terminal'] );
+                }
+
+                if ( isset($p_info['paymentSystem']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_system', $p_info['paymentSystem']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_system', $p_info['paymentSystem'] );
+                }
+                if ( isset($p_info['paymentMethod']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_method', $p_info['paymentMethod']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_method', $p_info['paymentMethod'] );
+                }
+                if ( isset($p_info['fee']) ) {
+                    $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_fee', $p_info['fee']);
+                    update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_fee', $p_info['fee'] );
+                }
+            }
+
+            $mrkv_mono_order->save();
+
+            $amount               = isset($mrkv_mono_callback['amount']) ? $mrkv_mono_callback['amount'] : 0;
+            $invoice_final_amount = isset($mrkv_mono_callback['finalAmount']) ? $mrkv_mono_callback['finalAmount'] : $amount;
+
+            if ( $mrkv_mono_response->mrkv_mono_isComplete() ) {
+                global $woocommerce;
+
+                if ( $invoice_final_amount != $amount ) {
                     $mrkv_mono_order->add_order_note(
-                        // translators: %1$s: Formatted invoice finalization amount
                         sprintf( __( 'Hold finalization amount %1$s UAH', 'morkva-monobank-extended' ), sprintf( '%.2f', $invoice_final_amount / 100 ) )
                     );
                 }
 
-                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount',  $invoice_final_amount);
-                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount',  $invoice_final_amount );
-                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount_refunded',  0);
-                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount_refunded',  0 );
-                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount_final',  $invoice_final_amount);
-                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount_final',  $invoice_final_amount );
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount', $invoice_final_amount);
+                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount', $invoice_final_amount );
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount_refunded', 0);
+                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount_refunded', 0 );
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount_final', $invoice_final_amount);
+                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount_final', $invoice_final_amount );
+
+                if ( ! empty($webhook_invoice_id) ) {
+                    $mrkv_mono_order->set_transaction_id($webhook_invoice_id);
+                }
 
                 $mrkv_mono_order->save();
 
-                $woocommerce->cart->empty_cart();
+                if ( isset($woocommerce->cart) ) {
+                    $woocommerce->cart->empty_cart();
+                }
 
                 $new_order_status = ($this->get_option( 'monopay_order_status' ) && $this->get_option( 'monopay_order_status' ) != '') ? $this->get_option( 'monopay_order_status' ) : 'processing';
-
-                if (!empty($mrkv_mono_callback['invoiceId'])) {
-                    $mrkv_mono_order->set_transaction_id($mrkv_mono_callback['invoiceId']);
-                    $mrkv_mono_order->save(); 
-                }
 
                 $force_status = function ( $status ) use ( $new_order_status ) {
                     return $new_order_status ?: $status;
@@ -655,21 +666,20 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
                     remove_filter( 'woocommerce_payment_complete_order_status', $force_status );
                 }
             }
-            elseif($mrkv_mono_response->mrkv_mono_isHold())
-            {
+            elseif ( $mrkv_mono_response->mrkv_mono_isHold() ) {
                 $new_status_name = wc_get_order_status_name('on-hold');
-                $note_status = '[morkva plata] ' . __('Status changed to: ', 'morkva-monobank-extended') . $new_status_name;
+                $note_status     = '[morkva plata] ' . __('Status changed to: ', 'morkva-monobank-extended') . $new_status_name;
+                
                 $mrkv_mono_order->update_status('on-hold', $note_status, true);
-                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount',  $amount);
-                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount',  $amount );
+                $mrkv_mono_order->update_meta_data( 'mrkv_mopay_accuiring_payment_amount', $amount);
+                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_accuiring_payment_amount', $amount );
 
                 $mrkv_mono_order->save();
 
                 global $woocommerce;
-
-                $woocommerce->cart->empty_cart();
-
-
+                if ( isset($woocommerce->cart) ) {
+                    $woocommerce->cart->empty_cart();
+                }
             }
         }
     }

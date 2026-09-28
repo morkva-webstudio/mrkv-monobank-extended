@@ -68,17 +68,23 @@ class Morkva_Mono_Payment
 
         # Create request args
         $mrkv_mono_args = array(
-            'method'      => ($endpoint == "/invoice/status") ? 'GET' : 'POST',
-            'body'        => json_encode($mrkv_mono_body),
-            'headers'     => $mrkv_mono_headers,
+            'headers' => $mrkv_mono_headers,
+            'timeout' => 45,
         );
 
-        # Send request
-        $mrkv_mono_request = wp_safe_remote_post($mrkv_mono_url, $mrkv_mono_args);
+        if ($endpoint === "/invoice/status") {
+            if (!empty($mrkv_mono_body) && is_array($mrkv_mono_body)) {
+                $mrkv_mono_url = add_query_arg($mrkv_mono_body, $mrkv_mono_url);
+            }
+            
+            $mrkv_mono_request = wp_safe_remote_get($mrkv_mono_url, $mrkv_mono_args);
+        } else {
+            $mrkv_mono_args['body'] = json_encode($mrkv_mono_body);
+            $mrkv_mono_request = wp_safe_remote_post($mrkv_mono_url, $mrkv_mono_args);
+        }
 
         if($enabled_debug_log)
         {
-            # Headers are never logged: they carry the merchant X-Token
             \MRKV_MONO_LOG::mrkv_mono_debug('Monobank Request', array(
                 'URL'    => $mrkv_mono_url,
                 'Body'   => $mrkv_mono_body,
@@ -200,5 +206,19 @@ class Morkva_Mono_Payment
 
     public function mrkv_mono_hold_cancel($cancel_data) {
         return $this->mrkv_mono_apiRequest("/invoice/cancel", $cancel_data);
+    }
+
+    public function mrkv_mono_get_invoice_status($invoice_id) 
+    {
+        if (empty($invoice_id)) {
+            return false;
+        }
+
+        try {
+            $response = $this->mrkv_mono_apiRequest('/invoice/status', array('invoiceId' => $invoice_id));
+            return $response;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
