@@ -66,7 +66,7 @@ class Morkva_Mono_Order
     /**
      * @var string Hold active
      * */
-    protected $mrkv_mono_customerEmails;
+    protected $mrkv_mono_customerEmails = [];
 
     /**
      * Set order id
