@@ -145,7 +145,7 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
                 'label' => '<span>' . __( 'Enable', 'morkva-monobank-extended' )  . '</span>',
                 'type' => 'checkbox',
                 'default' => 'false',
-                'description' => __( 'The payment is held for 9 days. After this period, the payment is automatically cancelled. You can finalize it manually from the order page, or it will be finalized automatically when the status changes.', 'morkva-monobank-extended' ),
+                'description' => __( 'The payment is held for 9 days. After this period, the payment is automatically cancelled. You can finalize it manually from the order page, or it will be finalized automatically when the status changes.', 'morkva-monobank-extended' ) . '<br>' . __( 'If a hold is automatically canceled, the order status will not change automatically. Check the order status by clicking the "Check Status" button.', 'morkva-monobank-extended' ),
             ),
             'hold_finale_status' => array(
                 'title' => __( 'Automatic finalization of holding when the order status changes', 'morkva-monobank-extended' ),
