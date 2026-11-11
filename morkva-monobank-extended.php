@@ -2,7 +2,7 @@
 /**
  * Plugin Name: morkva Plata by Mono Extended
  * Description: Краще ніж офіційний: інтернет-еквайринг.
- * Version: 1.6.12
+ * Version: 1.6.13
  * Tested up to: 7.1
  * Requires at least: 5.2
  * Requires PHP: 7.1
@@ -12,6 +12,7 @@
  * Text Domain: morkva-monobank-extended
  * Domain Path: /languages
  * License: GPLv2
+ * Requires Plugins: woocommerce
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
@@ -38,7 +39,7 @@ new MorkvaMonopayMenu();
 # Define constant of plugin direction and path
 define('MORKVAMONOGATEWAY_DIR', plugin_dir_path(__FILE__));
 define('MORKVAMONOGATEWAY_PATH', plugin_dir_url(__FILE__));
-define('MORKVAMONOGATEWAY_VERSION', '1.6.12');
+define('MORKVAMONOGATEWAY_VERSION', '1.6.13');
 
 # Require centralized debug logging (WC logger only, never a file in the plugin dir)
 require_once MORKVAMONOGATEWAY_DIR . 'includes/class-mrkv-mono-log.php';
@@ -65,6 +66,9 @@ function mrkv_mono_true_load_plugin_textdomain()
  * */
 function mrkv_mono_init_mono_gateway_class() 
 {
+    if ( ! class_exists( 'WooCommerce' ) ) {
+        return;
+    }
     # Require monopay class
     require_once MORKVAMONOGATEWAY_DIR . 'includes/class-wc-morkva-mono-gateway.php';
 }
@@ -159,6 +163,9 @@ add_action('wp_enqueue_scripts', 'mrkv_mono_register_styles_func');
 
 function mrkv_mono_register_styles_func()
 {
+    if ( ! class_exists( 'WooCommerce' ) ) {
+        return;
+    }
     if(is_checkout())
     {
         # Add styles
