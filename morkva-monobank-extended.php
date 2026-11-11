@@ -66,9 +66,11 @@ function mrkv_mono_true_load_plugin_textdomain()
  * */
 function mrkv_mono_init_mono_gateway_class() 
 {
-    if ( ! class_exists( 'WooCommerce' ) ) {
+    if ( ! class_exists( 'WC_Payment_Gateway' ) )
+    {
         return;
     }
+
     # Require monopay class
     require_once MORKVAMONOGATEWAY_DIR . 'includes/class-wc-morkva-mono-gateway.php';
 }
@@ -135,6 +137,12 @@ add_action( 'wp_loaded', 'mrkv_mono_include_checkout' );
  * */
 function mrkv_mono_include_checkout()
 {
+    # Order metaboxes and AJAX handlers call wc_get_order() and friends
+    if ( ! class_exists( 'WC_Payment_Gateway' ) )
+    {
+        return;
+    }
+
     require_once MORKVAMONOGATEWAY_DIR . 'includes/class-morkva-mono-orders.php';
 
     # Create widget monopay orders
@@ -163,10 +171,7 @@ add_action('wp_enqueue_scripts', 'mrkv_mono_register_styles_func');
 
 function mrkv_mono_register_styles_func()
 {
-    if ( ! class_exists( 'WooCommerce' ) ) {
-        return;
-    }
-    if(is_checkout())
+    if(class_exists( 'WooCommerce' ) && function_exists( 'is_checkout' ) && is_checkout() )
     {
         # Add styles
         wp_enqueue_style( 'monopay-checkout', MORKVAMONOGATEWAY_PATH . 'assets/css/monopay-checkout.css', array(), MORKVAMONOGATEWAY_VERSION );
