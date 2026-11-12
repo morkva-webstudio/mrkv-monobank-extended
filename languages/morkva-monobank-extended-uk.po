@@ -70,7 +70,7 @@ msgstr "Api токен"
 #: includes/class-wc-morkva-mono-gateway.php:158
 msgid "Automatic cancellation of holding when the order status changes"
 msgstr ""
-"Автоматична відміна холдування при зміні статуса замовлення\n"
+"Автоматична відміна холдування при зміні статуса замовлення"
 
 #: includes/class-wc-morkva-mono-gateway.php:151
 msgid "Automatic finalization of holding when the order status changes"
@@ -142,7 +142,7 @@ msgstr "Увімкнути"
 #: includes/class-wc-morkva-mono-gateway.php:249
 msgid "Enable debug log"
 msgstr ""
-"Увімкнути debug log\n"
+"Увімкнути debug log"
 
 #: includes/class-wc-morkva-mono-gateway.php:105
 #| msgid "Enable Morkva Mono Payment"
@@ -521,3 +521,51 @@ msgid ""
 "Оплата за замовлення №{order_id} від {billing_last_name} {billing_first_name}"
 msgstr ""
 "Оплата за замовлення №{order_id} від {billing_last_name} {billing_first_name}"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Expired"
+msgstr "Закінчився термін дії"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Hold"
+msgstr "Hold"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Failure"
+msgstr "Помилка"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Reversed"
+msgstr "Повернено"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Failure reason"
+msgstr "Причина помилки"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Card"
+msgstr "Картка"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Payment system"
+msgstr "Платіжна система"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Payment method"
+msgstr "Спосіб оплати"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Approval code"
+msgstr "Код авторизації"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Transaction ID"
+msgstr "ID транзакції"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Fee"
+msgstr "Комісія"
+
+#: includes/class-morkva-mono-orders.php
+msgid "Payment details appear here once monobank confirms the payment."
+msgstr "Деталі платежу з'являться тут, щойно monobank підтвердить оплату."
