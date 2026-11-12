@@ -463,9 +463,6 @@ if (!class_exists('MorkvaMonopayOrders'))
 
 					if(isset($response['status']))
 					{
-						$mrkv_mono_order->update_meta_data( 'mrkv_mopay_payment_method', 'morkva-monopay');
-		                update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_payment_method', 'morkva-monopay' );
-
 		                $mrkv_mono_callback = $response;
 
 		                if(isset($mrkv_mono_callback['status']))
@@ -583,8 +580,6 @@ if (!class_exists('MorkvaMonopayOrders'))
             	{
             		# Get payment method
 		            $payment_method = $order->get_payment_method();
-
-		            $mrkv_mopay_payment_method = $order->get_meta('mrkv_mopay_payment_method');
 
 		            # Check monopay method
 		            if('morkva-monopay' == $payment_method)
@@ -770,74 +765,64 @@ if (!class_exists('MorkvaMonopayOrders'))
 	            # Get payment method
 	            $payment_method = $order->get_payment_method();
 
-	            $mrkv_mopay_payment_method = $order->get_meta('mrkv_mopay_payment_method');
-
 				do_action( 'mrkv_monobank_order_metabox_start', $order );
 
 	            # Check monopay method
 	            if('morkva-monopay' == $payment_method)
 	            {
-	            	# Get Acuiring status
-            		$mrkv_mopay_payment_method = $order->get_meta('mrkv_mopay_payment_method');
+					# Get Acuiring invoice id
+					$mrkv_mopay_accuiring_invoice_id = $order->get_meta('mrkv_mopay_accuiring_invoice_id');
 
-	            	# Details come from the webhook or the status check below. No mrkv_mopay_payment_method condition:
-	            	# when the webhook never came the box still shows the invoice and the status check button
-	            	if('morkva-monopay' == $payment_method)
-	            	{
-	            		# Get Acuiring invoice id
-	            		$mrkv_mopay_accuiring_invoice_id = $order->get_meta('mrkv_mopay_accuiring_invoice_id');
+					$this->mrkv_mono_render_acquiring_details($order);
 
-	            		$this->mrkv_mono_render_acquiring_details($order);
+					if($mrkv_mopay_accuiring_invoice_id)
+					{
+						?>
+							<div style="margin-top: 15px;" class="monopay_metabox_line">
+								<div class="mrkv_mono_accuiring-status-call button button-primary"><?php echo esc_html__('Checking the status of the order', 'morkva-monobank-extended'); ?></div>
+								<svg style="display: none; position:absolute; right:0;" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" x="0px" y="0px"
+									viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+									<path fill="#000" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+										<animateTransform 
+											attributeName="transform" 
+											attributeType="XML" 
+											type="rotate"
+											dur="1s" 
+											from="0 50 50"
+											to="360 50 50" 
+											repeatCount="indefinite" />
+									</path>
+								</svg>
+							</div>
+							<script>
+							jQuery(window).on('load', function() {
+								jQuery(document).on("click", ".mrkv_mono_accuiring-status-call", function(){
+									var order_id = '<?php echo esc_attr( $order->get_id() ); ?>';
 
-	            		if($mrkv_mopay_accuiring_invoice_id)
-	            		{
-	            			?>
-	            				<div style="margin-top: 15px;" class="monopay_metabox_line">
-	            					<div class="mrkv_mono_accuiring-status-call button button-primary"><?php echo esc_html__('Checking the status of the order', 'morkva-monobank-extended'); ?></div>
-	            					<svg style="display: none; position:absolute; right:0;" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" x="0px" y="0px"
-									  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
-									    <path fill="#000" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-									      <animateTransform 
-									         attributeName="transform" 
-									         attributeType="XML" 
-									         type="rotate"
-									         dur="1s" 
-									         from="0 50 50"
-									         to="360 50 50" 
-									         repeatCount="indefinite" />
-									  </path>
-									</svg>
-	            				</div>
-	            				<script>
-            					jQuery(window).on('load', function() {
-	            					jQuery(document).on("click", ".mrkv_mono_accuiring-status-call", function(){
-	            						var order_id = '<?php echo esc_attr( $order->get_id() ); ?>';
-
-	            						if(order_id)
-	            						{
-	            							var data = {
-	            								action: 'mrkv_mono_accuiring_status_check',
-	            								order_id: order_id,
-												nonce: '<?php echo esc_js( wp_create_nonce( 'mrkv_mono_nonce' ) ); ?>'
-	            							};
-	            							jQuery.ajax({
-												url: '<?php echo esc_url( admin_url( "admin-ajax.php" ) ); ?>',
-												type: 'POST',
-												data: data,
-												beforeSend: function( xhr ) {
-									                jQuery('.monopay_metabox_line svg').show();
-									            },
-												success: function( data ) {
-													location.reload();
-												}
-											});
-	            						}
-	            					});
-            					});
-            				</script>
-	            			<?php
-	            		}
-	            	}
+									if(order_id)
+									{
+										var data = {
+											action: 'mrkv_mono_accuiring_status_check',
+											order_id: order_id,
+											nonce: '<?php echo esc_js( wp_create_nonce( 'mrkv_mono_nonce' ) ); ?>'
+										};
+										jQuery.ajax({
+											url: '<?php echo esc_url( admin_url( "admin-ajax.php" ) ); ?>',
+											type: 'POST',
+											data: data,
+											beforeSend: function( xhr ) {
+												jQuery('.monopay_metabox_line svg').show();
+											},
+											success: function( data ) {
+												location.reload();
+											}
+										});
+									}
+								});
+							});
+						</script>
+						<?php
+					}
 	            }
 
 				do_action( 'mrkv_monobank_order_metabox_end', $order );

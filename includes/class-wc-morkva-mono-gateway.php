@@ -551,9 +551,6 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
                 return;
             }
 
-            $mrkv_mono_order->update_meta_data( 'mrkv_mopay_payment_method', 'morkva-monopay');
-            update_post_meta( $mrkv_mono_order_id, 'mrkv_mopay_payment_method', 'morkva-monopay' );
-
             $mrkv_mono_response = new \MorkvaMonoGateway\Morkva_Mono_Response($mrkv_mono_callback);
             do_action('mrkv_mono_plata_callback', $mrkv_mono_order, $mrkv_mono_response, 'morkva-monopay');
 
