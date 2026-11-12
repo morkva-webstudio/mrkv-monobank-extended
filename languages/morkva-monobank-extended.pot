@@ -473,3 +473,51 @@ msgstr ""
 msgid ""
 "Оплата за замовлення №{order_id} від {billing_last_name} {billing_first_name}"
 msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Expired"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Hold"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Failure"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Reversed"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Failure reason"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Card"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Payment system"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Payment method"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Approval code"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Transaction ID"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Fee"
+msgstr ""
+
+#: includes/class-morkva-mono-orders.php
+msgid "Payment details appear here once monobank confirms the payment."
+msgstr ""

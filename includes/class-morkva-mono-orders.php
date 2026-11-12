@@ -680,6 +680,76 @@ if (!class_exists('MorkvaMonopayOrders'))
 	    }
 
 	    /**
+	     * Payment details monobank sent for the order (webhook or "Checking the status of the order"): label => value,
+	     * only the filled ones, in display order. The fee comes in kopecks.
+	     *
+	     * @param WC_Order $order Order.
+	     * @return array<string,string>
+	     */
+	    public function mrkv_mono_acquiring_details_rows($order)
+	    {
+	    	$statuses = array(
+	    		'created'    => __('Created', 'morkva-monobank-extended'),
+	    		'processing' => __('Processing', 'morkva-monobank-extended'),
+	    		'hold'       => __('Hold', 'morkva-monobank-extended'),
+	    		'success'    => __('Success', 'morkva-monobank-extended'),
+	    		'failure'    => __('Failure', 'morkva-monobank-extended'),
+	    		'reversed'   => __('Reversed', 'morkva-monobank-extended'),
+	    		'expired'    => __('Expired', 'morkva-monobank-extended'),
+	    	);
+	    	$methods = array(
+	    		'apple'  => 'Apple Pay',
+	    		'google' => 'Google Pay',
+	    	);
+
+	    	$status = (string) $order->get_meta('mrkv_mopay_accuiring_status');
+	    	$method = (string) $order->get_meta('mrkv_mopay_accuiring_payment_method');
+	    	$fee    = (string) $order->get_meta('mrkv_mopay_accuiring_fee');
+
+	    	$rows = array(
+	    		__('Status', 'morkva-monobank-extended')         => isset($statuses[$status]) ? $statuses[$status] : $status,
+	    		__('Failure reason', 'morkva-monobank-extended') => (string) $order->get_meta('mrkv_mopay_accuiring_failure_reason'),
+	    		__('Card', 'morkva-monobank-extended')           => (string) $order->get_meta('mrkv_mopay_accuiring_masked_pan'),
+	    		__('Payment system', 'morkva-monobank-extended') => (string) $order->get_meta('mrkv_mopay_accuiring_payment_system'),
+	    		__('Payment method', 'morkva-monobank-extended') => isset($methods[$method]) ? $methods[$method] : $method,
+	    		__('Approval code', 'morkva-monobank-extended')  => (string) $order->get_meta('mrkv_mopay_accuiring_approval_code'),
+	    		'RRN'                                                => (string) $order->get_meta('mrkv_mopay_accuiring_rrn'),
+	    		__('Transaction ID', 'morkva-monobank-extended') => (string) $order->get_meta('mrkv_mopay_accuiring_tran_id'),
+	    		__('Terminal ID', 'morkva-monobank-extended')    => (string) $order->get_meta('mrkv_mopay_accuiring_terminal'),
+	    		__('Fee', 'morkva-monobank-extended')            => '' === $fee ? '' : number_format((int) $fee / 100, 2, '.', '') . ' ' . $order->get_currency(),
+	    		__('Invoice ID', 'morkva-monobank-extended')     => (string) $order->get_meta('mrkv_mopay_accuiring_invoice_id'),
+	    		__('Reference', 'morkva-monobank-extended')      => (string) $order->get_meta('mrkv_mopay_accuiring_reference'),
+	    	);
+
+	    	return array_filter($rows, 'strlen');
+	    }
+
+	    /**
+	     * Logo and the payment details table of the card payment.
+	     *
+	     * @param WC_Order $order Order.
+	     */
+	    public function mrkv_mono_render_acquiring_details($order)
+	    {
+	    	echo '<p><img src="' . esc_url( MORKVAMONOGATEWAY_PATH . 'assets/images/plata_light_bg.png' ) . '" alt="Plata by mono" width="116" style="height:auto;" /></p>';
+
+	    	if ( '' === (string) $order->get_meta('mrkv_mopay_accuiring_status') ) {
+	    		echo '<p>' . esc_html__( 'Payment details appear here once monobank confirms the payment.', 'morkva-monobank-extended' ) . '</p>';
+	    	}
+
+	    	$rows = $this->mrkv_mono_acquiring_details_rows($order);
+	    	if ( ! $rows ) {
+	    		return;
+	    	}
+
+	    	echo '<table class="widefat striped" style="border:0;"><tbody>';
+	    	foreach ( $rows as $label => $value ) {
+	    		echo '<tr><th style="padding:4px 6px;">' . esc_html( $label ) . '</th><td style="padding:4px 6px;word-break:break-all;">' . esc_html( $value ) . '</td></tr>';
+	    	}
+	    	echo '</tbody></table>';
+	    }
+
+	    /**
 	     * Add metabox content
 	     * */
 	    public function mrkv_monopay_add_plugin_meta_box($post)
@@ -710,73 +780,18 @@ if (!class_exists('MorkvaMonopayOrders'))
 	            	# Get Acuiring status
             		$mrkv_mopay_payment_method = $order->get_meta('mrkv_mopay_payment_method');
 
-	            	if('morkva-monopay' == $payment_method && $mrkv_mopay_payment_method == 'morkva-monopay')
+	            	# Details come from the webhook or the status check below. No mrkv_mopay_payment_method condition:
+	            	# when the webhook never came the box still shows the invoice and the status check button
+	            	if('morkva-monopay' == $payment_method)
 	            	{
-	            		# Get Acuiring status
-	            		$mrkv_mopay_accuiring_status = $order->get_meta('mrkv_mopay_accuiring_status');
-
-	            		# Get Acuiring reference
-	            		$mrkv_mopay_accuiring_reference = $order->get_meta('mrkv_mopay_accuiring_reference');
-
 	            		# Get Acuiring invoice id
 	            		$mrkv_mopay_accuiring_invoice_id = $order->get_meta('mrkv_mopay_accuiring_invoice_id');
 
-	            		# Get Acuiring error
-	            		$mrkv_mopay_accuiring_failure_reason = $order->get_meta('mrkv_mopay_accuiring_failure_reason');
-
-	            		?>
-	            			<div class="monopay_metabox_line">
-	            				<h4><?php echo esc_html__( 'Mono Acquiring', 'morkva-monobank-extended' ); ?></h4>
-	            			</div>
-	            		<?php
-	            		if($mrkv_mopay_accuiring_status)
-	            		{
-	            			?>
-	            			<div class="monopay_metabox_line">
-	            				<b><?php echo esc_html__('Status', 'morkva-monobank-extended'); ?>:</b>
-	            				<span>
-	            					<?php 
-	            						$order_status_text = '';
-
-	            						switch($mrkv_mopay_accuiring_status)
-	            						{
-	            							case 'created':
-	            								$order_status_text = __('Created', 'morkva-monobank-extended');
-	            							break;
-	            							case 'processing':
-	            								$order_status_text = __('Processing', 'morkva-monobank-extended');
-	            							break;
-	            							case 'failure':
-	            								$order_status_text = $mrkv_mopay_accuiring_failure_reason;
-	            							break;
-	            							case 'success':
-	            								$order_status_text = __('Success', 'morkva-monobank-extended');
-	            							break;
-	            						}
-	            						echo esc_html( $order_status_text );
-	            					?>
-	            				</span>
-	            			</div>
-	            			<?php
-	            		}
-
-	            		if($mrkv_mopay_accuiring_reference)
-	            		{
-	            			?>
-	            				<div class="monopay_metabox_line">
-	            					<b><?php echo esc_html__('Reference', 'morkva-monobank-extended'); ?>:</b>
-	            					<span><?php echo esc_html( $mrkv_mopay_accuiring_reference ); ?></span>
-	            				</div>
-	            			<?php
-	            		}
+	            		$this->mrkv_mono_render_acquiring_details($order);
 
 	            		if($mrkv_mopay_accuiring_invoice_id)
 	            		{
 	            			?>
-	            				<div class="monopay_metabox_line">
-	            					<b><?php echo esc_html__('Invoice ID', 'morkva-monobank-extended'); ?>:</b>
-	            					<span><?php echo esc_html( $mrkv_mopay_accuiring_invoice_id ); ?></span>
-	            				</div>
 	            				<div style="margin-top: 15px;" class="monopay_metabox_line">
 	            					<div class="mrkv_mono_accuiring-status-call button button-primary"><?php echo esc_html__('Checking the status of the order', 'morkva-monobank-extended'); ?></div>
 	            					<svg style="display: none; position:absolute; right:0;" version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" x="0px" y="0px"
