@@ -420,7 +420,10 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
             }
         } catch (\Exception $e) {
             wc_add_notice('Payment error: ' . $e->getMessage(), 'error');
-            return false;
+            return [
+                'result'   => 'failure',
+                'redirect' => '',
+            ];
         }
     }
 
