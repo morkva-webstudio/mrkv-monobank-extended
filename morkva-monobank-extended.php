@@ -6,7 +6,7 @@
  * Tested up to: 7.1
  * Requires at least: 5.2
  * Requires PHP: 7.1
- * WC tested up to: 9.8
+ * WC tested up to: 11.3
  * Author: morkva
  * Author URI: https://morkva.co.ua
  * Text Domain: morkva-monobank-extended
