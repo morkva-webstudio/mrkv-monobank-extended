@@ -23,13 +23,10 @@ if (!class_exists('MorkvaMonopayOrders'))
 			add_action('woocommerce_order_status_changed', array($this, 'mrkv_monopay_finalize_hold'), 10, 4);
 
 			add_action( 'wp_ajax_mrkv_mono_accuiring_status_check', array( $this, 'mrkv_mono_accuiring_status_check_func' ) );
-			add_action( 'wp_ajax_nopriv_mrkv_mono_accuiring_status_check', array( $this, 'mrkv_mono_accuiring_status_check_func' ) );
 
 			add_action( 'wp_ajax_mrkv_mono_cancel_payment_hold', array( $this, 'mrkv_mono_cancel_payment_hold_func' ) );
-			add_action( 'wp_ajax_nopriv_mrkv_mono_cancel_payment_hold', array( $this, 'mrkv_mono_cancel_payment_hold_func' ) );
 
 			add_action( 'wp_ajax_mrkv_mono_final_payment_hold', array( $this, 'mrkv_mono_final_payment_hold_func' ) );
-			add_action( 'wp_ajax_nopriv_mrkv_mono_final_payment_hold', array( $this, 'mrkv_mono_final_payment_hold_func' ) );
 
 			add_action('mrkv_mono_plata_settings_sidebar', [$this, 'mrkv_mono_plata_settings_sidebar_func']);
 
