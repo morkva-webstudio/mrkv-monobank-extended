@@ -736,9 +736,13 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
 
         $mrkv_mono_token = $this->mrkv_mono_getToken();
         $mrkv_mono_payment = new Morkva_Mono_Payment($mrkv_mono_token);
+        # Merchant reference of this refund: shown in the order note and in the monobank cabinet
+        $mrkv_mono_refund_ref = $mrkv_mono_order->get_id() . '-' . time();
         $mrkv_mono_refund_order = array(
             "invoiceId" => $mrkv_mono_transaction_id,
-            "amount" => $amount*100
+            # Integer kopecks: 19.99 * 100 is 1998.9999... as a float
+            "amount" => (int) round( (float) $amount * 100 ),
+            "extRef" => $mrkv_mono_refund_ref
         );
         
         $mrkvmonoOrder = new Morkva_Mono_Order();
@@ -753,19 +757,22 @@ class WC_Gateway_Morkva_Mono extends WC_Payment_Gateway
                 //$this->log( 'Refund Failed: ' . $result->get_error_message(), 'error' );
                 return new WP_Error( 'error', $mrkv_mono_result->get_error_message() );
             }
-            if ($mrkv_mono_result->stage == "c") {
+            # invoice/cancel answers {"status": "processing|success|failure"} or {"errCode", "errText"}
+            if ( isset( $mrkv_mono_result->status ) && in_array( $mrkv_mono_result->status, array( 'processing', 'success' ), true ) ) {
                 // translators: %1$s: Refund amount, %2$s: Monobank transaction refund reference ID
                 $mrkv_mono_order->add_order_note(
                     // translators: %1$s: Refund amount, %2$s: Monobank transaction refund reference ID
-                    sprintf( __( 'Refunded %1$s - Refund ID: %2$s', 'morkva-monobank-extended' ), $amount, $mrkv_mono_result->cancelRef )
+                    sprintf( __( 'Refunded %1$s - Refund ID: %2$s', 'morkva-monobank-extended' ), $amount, $mrkv_mono_refund_ref )
                 );
                 return true;
             }
+            if ( ! empty( $mrkv_mono_result->errText ) ) {
+                return new WP_Error( 'error', $mrkv_mono_result->errText );
+            }
         } catch (\Exception $e) {
-            wc_add_notice('Request error (' . $e->getMessage() . ')', 'error');
-            return false;
+            return new WP_Error( 'error', $e->getMessage() );
         }
-        return false;
+        return new WP_Error( 'error', __( 'Refund failed.', 'morkva-monobank-extended' ) );
     }
 
     /**
