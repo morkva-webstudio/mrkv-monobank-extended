@@ -193,7 +193,7 @@ class Morkva_Mono_Payment
     public function mrkv_mono_cancel() 
     {   
         # Send request
-        $mrkv_mono_response = $this->mrkv_mono_apiRequest("/cancel", $this->mrkv_mono_refund_order);
+        $mrkv_mono_response = $this->mrkv_mono_apiRequest("/invoice/cancel", $this->mrkv_mono_refund_order);
 
         # Return response
         return $mrkv_mono_response;
