@@ -99,6 +99,13 @@ class Morkva_Mono_Payment
             throw new \Exception("Connection error");
         }
 
+        # Transport failure (timeout, DNS, SSL): a WP_Error has no ['body']. Callers check is_wp_error() or treat it as
+        # an empty answer; an exception here would be uncaught in the hold cancel calls.
+        if ( is_wp_error( $mrkv_mono_request ) )
+        {
+            return $mrkv_mono_request;
+        }
+
         # Return answer
         return json_decode($mrkv_mono_request['body']);
     }
